@@ -9,7 +9,7 @@
         :active-name="menu"
         @on-select="menuOnSelect"
       >
-        <div class="flex-row">
+        <div class="flex-row noborder">
           <div>
 
               <MenuItem name="1">
@@ -1114,7 +1114,21 @@ span.a {
 textarea.ivu-input:hover {
   border: none;
 } */
+
+.ivu-menu-item:hover {
+  border: none !important;
+}
+
+.ivu-menu-item-selected, .ivu-menu-item-active {
+  /* color: #fff !important; */
+  border: none !important;
+}
+
 .ivu-menu-item-selected {
-  color: #fff !important;
+  color: #515a6e !important;
+}
+
+.noborder * {
+  border: none !important;
 }
 </style>
