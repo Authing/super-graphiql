@@ -7,22 +7,27 @@ const state = {
     apiDocs: {
         getClientWhenSdkInit: {
             name: '初始化',
-            brief: 'SDK 初始化时获取客户端信息和 accessToken 信息，后续的管理用户的操作请发送此 Token，在下文中，此 Token 命名为「OwnerToken」。',
+            brief: '若你需要管理用户池或用户，请先从此方法获取 accessToken，后续的管理用户或用户池的操作请发送此 Token，在下文中，此 Token 命名为「OwnerToken」。',
             type: '用户池鉴权'
+        },
+        register: {
+            name: '注册',
+            brief: '用户注册。\n此接口不需要发送任何 Token, 密码采用非对称加密方式。参见 https://docs.authing.cn/authing/sdk/open-graphql#zhu-ce',
+            type: '用户鉴权'
         },
         login: {
             name: '登录',
             brief: '此接口用来执行用户登录的操作，登录成功后会返回 UserToken，建议单独维护此 Token。\n多种登录方式参见 https://docs.authing.cn/authing/sdk/open-graphql#deng-lu',
             type: '用户鉴权'
         },
+        decodeJwtToken: {
+            name: '解析 JWT Token',
+            brief: '此接口用来解析 JWT Token。',
+            type: '用户鉴权'
+        },
         refreshToken: {
             name: '刷新 Token',
             brief: '此接口用来刷新 Token，Token 是用户登录的凭证',
-            type: '用户鉴权'
-        },
-        register: {
-            name: '注册',
-            brief: '用户注册。\n此接口不需要发送任何 Token, 密码采用非对称加密方式。参见 https://docs.authing.cn/authing/sdk/open-graphql#zhu-ce',
             type: '用户鉴权'
         },
         user: {
@@ -70,12 +75,7 @@ const state = {
             brief: '此接口用来更改忘记密码后的新密码，需要携带 verifyCode，不用发送 Token，正常的密码修正请使用上面的 update 接口。',
             type: '用户管理'
         },
-        decodeJwtToken: {
-            name: '解析 JWT Token',
-            brief: '此接口用来解析 JWT Token。',
-            type: '用户管理'
-        },
-
+        
         client: {
             type: '用户池管理'
         },
