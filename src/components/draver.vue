@@ -32,14 +32,9 @@
             <Icon type="md-code-working" size="16" style="margin-right: 4px;" />生成查询语句
           </span>
         </div>
-        <p>
-          {{ clearUrlInString(((apiInfo.description && apiInfo.description.length > 0) && apiInfo.description) || (apiDocs[apiInfo['name']] && apiDocs[apiInfo['name']]['brief']) || '暂无描述，详情请见文档：') }}
-          <a
-            v-if="!(apiInfo.description && apiInfo.description.length > 0)"
-            :href="getUrlInString(((apiInfo.description && apiInfo.description.length > 0) && apiInfo.description) || (apiDocs[apiInfo['name']] && apiDocs[apiInfo['name']]['brief']) || '暂无描述，详情请见文档：') || 'https://docs.authing.cn/authing/sdk/open-graphql'"
-            target="_blank"
-          >{{ getUrlInString(((apiInfo.description && apiInfo.description.length > 0) && apiInfo.description) || (apiDocs[apiInfo['name']] && apiDocs[apiInfo['name']]['brief']) || '暂无描述，详情请见文档：') || 'https://docs.authing.cn/authing/sdk/open-graphql' }}</a>
-        </p>
+
+        <VueMarkdown>{{ doc }}</VueMarkdown>
+
         <Divider />
         <p
           v-if="(apiInfo.fields || apiInfo.inputFields) && fields.length > 0"
@@ -187,8 +182,15 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import VueMarkdown from "vue-markdown";
+
 export default {
   name: "draver",
+
+  components: {
+    VueMarkdown
+  },
+
   data() {
     return {
       args: [],
@@ -212,7 +214,16 @@ export default {
       "nowHistory",
       "historyList",
       "apiDocs"
-    ])
+    ]),
+
+    doc() {
+
+      const emptyDoc = "暂无描述，详情请见文档：[https://docs.authing.cn/authing/sdk/open-graphql](https://docs.authing.cn/authing/sdk/open-graphq)"
+      const apiName = this.apiInfo["name"]
+      const apiDoc = this.apiDocs[apiName]
+      const brief = apiDoc && apiDoc["brief"] ? apiDoc["brief"] : undefined
+      return brief || emptyDoc
+    }
   },
   watch: {
     drawerShow() {
@@ -605,10 +616,10 @@ export default {
 
     getUrlInString(str) {
       let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-|#)+)/g;
-      if(str && str.indexOf('https://') > -1) {
-        return reg.exec(str)[0]
+      if (str && str.indexOf("https://") > -1) {
+        return reg.exec(str)[0];
       } else {
-        return null
+        return null;
       }
     }
   }
