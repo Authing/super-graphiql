@@ -718,8 +718,13 @@ span.text {
   margin-left: 20px;
 }
 
+.markdownDocContainer ul{
+  margin-left: 13.5px;
+}
+
+
 blockquote {
   border-left: 4px solid #ccc;
-  padding-left: 16px;
+  padding-left: 11px;
 }
 </style>

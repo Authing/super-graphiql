@@ -21,7 +21,7 @@ const state = {
 
 - 前往 [authing.cn](https://authing.cn/) 注册账号
 - [新建用户池](https://docs.authing.cn/authing/quickstart/hello-world)
-- 通过 用户池 -> 基础配置 -> 基础配置 找到 \`clientId\` 和 \`secret\`
+- 通过 **用户池** -> **基础配置** 找到 \`clientId\` 和 \`secret\`
 
 4. 返回数据字段
 
