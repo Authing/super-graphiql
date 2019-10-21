@@ -5,17 +5,17 @@
       <Menu
         style="width: 100%;"
         mode="horizontal"
-        theme="primary"
+        theme="light"
         :active-name="menu"
         @on-select="menuOnSelect"
       >
-        <div class="flex-row">
+        <div class="flex-row noborder">
           <div>
-            <a href="https://authing.cn/graphiql" target="_blank">
+
               <MenuItem name="1">
                 <Icon type="ios-game-controller-b" />Super GQLi
               </MenuItem>
-            </a>
+
 
             <MenuItem name="2">
               <Icon type="ios-construct" />服务配置
@@ -1114,7 +1114,21 @@ span.a {
 textarea.ivu-input:hover {
   border: none;
 } */
+
+.ivu-menu-item:hover {
+  border: none !important;
+}
+
+.ivu-menu-item-selected, .ivu-menu-item-active {
+  /* color: #fff !important; */
+  border: none !important;
+}
+
 .ivu-menu-item-selected {
-  color: #fff !important;
+  color: #515a6e !important;
+}
+
+.noborder * {
+  border: none !important;
 }
 </style>
