@@ -33,7 +33,7 @@
           </span>
         </div>
 
-        <VueMarkdown>{{ doc }}</VueMarkdown>
+        <VueMarkdown :source="doc" class="markdownDocContainer"></VueMarkdown>
 
         <Divider />
         <p
@@ -217,12 +217,12 @@ export default {
     ]),
 
     doc() {
-
-      const emptyDoc = "暂无描述，详情请见文档：[https://docs.authing.cn/authing/sdk/open-graphql](https://docs.authing.cn/authing/sdk/open-graphq)"
-      const apiName = this.apiInfo["name"]
-      const apiDoc = this.apiDocs[apiName]
-      const brief = apiDoc && apiDoc["brief"] ? apiDoc["brief"] : undefined
-      return brief || emptyDoc
+      const emptyDoc =
+        "暂无描述，详情请见文档：[https://docs.authing.cn/authing/sdk/open-graphql](https://docs.authing.cn/authing/sdk/open-graphq)";
+      const apiName = this.apiInfo["name"];
+      const apiDoc = this.apiDocs[apiName];
+      const brief = apiDoc && apiDoc["brief"] ? apiDoc["brief"] : undefined;
+      return brief || emptyDoc;
     }
   },
   watch: {
@@ -712,5 +712,9 @@ span.text {
 .apiname {
   color: #203053;
   font-weight: bold;
+}
+
+.markdownDocContainer {
+  margin-left: 20px
 }
 </style>
