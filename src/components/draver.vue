@@ -722,6 +722,9 @@ span.text {
   margin-left: 13.5px;
 }
 
+.markdownDocContainer img{
+  width: 100%
+}
 
 blockquote {
   border-left: 4px solid #ccc;
