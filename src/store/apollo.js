@@ -297,6 +297,19 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
             type: '用户管理'
         },
 
+        unbindEmail: {
+            name: '解绑邮箱',
+            brief: `
+解绑邮箱。
+> 注：如果没有配置其他登陆方式（手机号、OAuth），将无法解绑邮箱。如需解绑，请先配置另一个登陆方式。
+
+1. 请求参数说明
+- user: 用户ID
+- client: 用户池ID
+`,
+            type: '用户管理'
+        },
+
         userClients: {
             name: "用户池列表",
             brief: `
@@ -445,11 +458,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             `,
             type: '社会化登录'
         },
-        unbindEmail: {
-            name: '解绑邮箱',
-            brief: '用户解绑 Email。',
-            type: '用户管理'
-        },
+
         setInvitationState: {
             name: '开启/关闭手机号注册白名单限制',
             brief: '开启或关闭手机号注册时的白名单限制。',
