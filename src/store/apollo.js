@@ -234,8 +234,15 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
             type: '用户管理'
         },
         removeUsers: {
-            name: '删除用户数据',
-            brief: '此接口用来删除用户数据，建议使用 OwnerToken。',
+            name: '删除用户',
+            brief: `
+删除用户。
+只有用户池（或协作用户池）管理员才能执行此操作。
+1. 参数说明
+- ids: 列表类型。
+- registerInClient: 用户池 ID
+- operator
+            `,
             type: '用户管理'
         },
         updateUser: {
