@@ -104,12 +104,16 @@ const state = {
             type: '用户管理'
         },
         
-        client: {
-            type: '用户池管理'
-        },
         userClients: {
+            name: "用户池列表",
             type: '用户池管理'
         },
+
+        client: {
+            name: "用户池详情",
+            type: '用户池管理'
+        },
+        
         userClientTypes: {
             type: '用户池管理'
         },
@@ -201,19 +205,40 @@ const state = {
             type: 'MFA 多因素认证'
         },
         getWebhookDetail: {
+            name: "获取 webhook 详情",
             type: 'WebHook API'
         },
         getAllWebhooks: {
-            type: 'WebHook API'
+            type: 'WebHook API',
+            name: "获取用户池 WebHook 列表"
         },
         getWebhookLogDetail: {
-            type: 'WebHook API'
+            type: 'WebHook API',
+            name: "获取 Webhook 日志详情"
         },
         getWebhookLogs: {
-            type: 'WebHook API'
+            type: 'WebHook API',
+            name: "获取 Webhook 日志列表"
         },
         getWebhookSettingOptions: {
-            type: 'WebHook API'
+            type: 'WebHook API',
+            name: "获取 Webhook 设置选项"
+        },
+        addClientWebhook: {
+            type: 'WebHook API',
+            name: "添加 Webhook"
+        },
+        updateClientWebhook: {
+            type: 'WebHook API',
+            name: "修改 Webhook"
+        },
+        deleteClientWebhook: {
+            type: 'WebHook API',
+            name: "删除 Webhook"
+        },
+        SendWebhookTest: {
+            type: 'WebHook API',
+            name: "发送 Webhook 测试"
         },
         ClientWebhook: {
             type: 'WebHook API'
@@ -236,18 +261,6 @@ const state = {
         WebhookContentType: {
             type: 'WebHook API'
         },
-        addClientWebhook: {
-            type: 'WebHook API'
-        },
-        updateClientWebhook: {
-            type: 'WebHook API'
-        },
-        deleteClientWebhook: {
-            type: 'WebHook API'
-        },
-        SendWebhookTest: {
-            type: 'WebHook API'
-        },
         LoginByLDAP: {
             // 使用 LDAP 登录，登录后返回的 Token 需要在客户端维护
             name: '使用 LDAP 登录',
@@ -264,7 +277,6 @@ const state = {
             brief: '此接口用于撤回一个用户池内，某个用户对该用户池下的某个 SSO 应用的授权。撤回授权后，用户在 SSO 登录页面登录时，会再次显示确权页面。',
             type: 'OAuth API'
         },
-        
 
     }
 }
