@@ -225,7 +225,12 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         },
         checkLoginStatus: {
             name: '检查用户登录状态',
-            brief: '此接口需要发送 Token，请使用 UserToken。',
+            brief: `
+检查用户登录状态。
+1. 请求参数说明
+- 可选项
+    - token: 指定用户的登陆凭证，不填将使用当前访问者的 token。
+            `,
             type: '用户管理'
         },
         removeUsers: {
