@@ -86,7 +86,17 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         },
         login: {
             name: '登录',
-            brief: '此接口用来执行用户登录的操作，登录成功后会返回 UserToken，建议单独维护此 Token。\n多种登录方式参见 https://docs.authing.cn/authing/sdk/open-graphql#deng-lu',
+            brief: `
+登陆接口。
+1. 登陆场景：
+- 用户名登陆
+- 邮箱登陆
+- 手机号作为用户名登陆
+- 手机号验证码
+- 社会化登陆
+
+
+            `,
             type: '用户鉴权'
         },
         decodeJwtToken: {
