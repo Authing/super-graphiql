@@ -101,7 +101,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         },
         decodeJwtToken: {
             name: '解析 JWT Token',
-            brief:  `
+            brief: `
 解析 JWT Token。
 1. 点击 [Authing官方文档](https://learn.authing.cn/authing/advanced/authentication/jwt-token) 了解更多 JWT Token 相关内容。
 2. 解析成功示例
@@ -296,7 +296,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
             `,
             type: '用户管理'
         },
-        
+
         userClients: {
             name: "用户池列表",
             brief: `
@@ -308,53 +308,117 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
         - page: 页数
         - count: 每页数目
         - computeUsersCount: 布尔值没，是否计算用户总数。
+
+2. 返回数据说明
+- totalCount: 用户池总数
+- list：用户池列表，列表元素字段含义请见 用户池详情 接口。
             `,
             type: '用户池管理'
         },
 
         client: {
             name: "用户池详情",
+            brief: `
+用户池详情。
+1. 请求参数
+- 必填参数
+    - id: 用户池 ID
+    - userId: 用户池创建者ID
+- 选填参数
+    - fromAdmin
+
+2. 部分返回数据说明
+- user: 用户池创建者。
+- usersCount：用户总数
+- emailVerifiedDefault：布尔值， 注册时邮箱需不需要验证。true无需验证，false表示需要验证。
+- registerDisabled：布尔值，true为应用池已关闭注册，false为未关闭注册。
+- showWXMPQRCode：布尔值，是否显示微信小程序扫码登录。
+- useMiniLogin：是否使用微信小程序“小登陆”。
+- allowedOrigins：安全域（Allowed Origins） 是允许从 JavaScript 向 Authing API 发出请求的 URL（通常与 CORS 一起使用）。 默认情况下，系统会允许你使用所有网址。 如果需要，此字段允许你输入其他来源。 你可以通过逐行分隔多个有效 URL，并在子域级别使用通配符（例如：https://*.sample.com）。 验证这些 URL 时不考虑查询字符串和哈希信息，如果带上了查询字符串和哈希信息系统会自动忽略整个域名。
+- secret：用户池密钥，通过 用户池 -> 基础配置 可以查看。
+- token：？
+- jwtExpired：jwt 过期时间
+- frequentRegisterCheck: 注册频率限制。
+            `,
             type: '用户池管理'
         },
-        
+
         userClientTypes: {
+            name: "获取用户池类型",
+            brief: `
+获取用户池类型。
+目前 Authing 支持 Web, IOS, Andoid, 小程序 四种用户池。
+            `,
             type: '用户池管理'
         },
-        isClientOfUser: {
-            type: '用户池管理'
-        },
+
         // userClientList: {
         //     type: '用户池管理'
         // },
+
+        queryPermissionList: {
+            name: "用户池权限列表",
+            type: "用户池管理"
+        },
+
         isClientBelongToUser: {
-            type: '用户池管理'
+            type: '用户池管理',
+            name: "是否具备用户池相关权限",
+            brief: `
+是否具备用户池相关权限。
+1. 请求参数说明
+- userId: 用户ID
+- clientId: 用户池ID
+- permissionDescriptors: 权限描述列表
+
+2. 用户池可以配置哪些权限点？
+
+Authing 目前支持以下权限点：你可以向协作者开放其所需要的权限。
+![](http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-23-123814.png)
+
+            `
         },
         // queryClient: {
         //     type: '用户池管理'
         // },
-        UserClientType: {
-            type: '用户池管理'
-        },
-        UserClient: {
-            type: '用户池管理'
-        },
-        PagedUserClients: {
-            type: '用户池管理'
-        },
-        PagedUserClientList: {
-            type: '用户池管理'
-        },
-        pagedUserClientListItem: {
-            type: '用户池管理'
-        },
-        newClient: {
-            type: '用户池管理'
-        },
+        // UserClientType: {
+        //     type: '用户池管理'
+        // },
+        // UserClient: {
+        //     type: '用户池管理'
+        // },
+        // PagedUserClients: {
+        //     type: '用户池管理'
+        // },
+        // PagedUserClientList: {
+        //     type: '用户池管理'
+        // },
+        // pagedUserClientListItem: {
+        //     type: '用户池管理'
+        // },
+        // newClient: {
+        //     type: '用户池管理'
+        // },
         removeUserClients: {
-            type: '用户池管理'
+            type: '用户池管理',
+            name: "删除用户池",
+            brief: `
+删除用户池。支持批量操作。
+
+1. 请求参数说明
+- ids: 用户池ID列表。
+            `
         },
         updateUserClient: {
-            type: '用户池管理'
+            type: '用户池管理',
+            name: "修改用户池",
+            brief: `
+修改用户池资料。
+1. 请求参数说明
+- client
+    - _id: 用户池ID，必填。
+    - 其他字段均可选，只需要填你想要修改的字段。
+            `
         },
 
         bindOtherOAuth: {
