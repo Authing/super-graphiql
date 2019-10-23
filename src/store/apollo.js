@@ -214,7 +214,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
             name: '获取用户列表',
             brief: `
 获取用户列表。支持分页。用户信息支持基础信息和附带扩展字段两种模式。
-1. 部分请求参数说明
+部分请求参数说明
 - registerInClient：用户池 ID
 - page: 第几页。
 - count：一页包含用户数目，默认为10，最大为200。
@@ -227,7 +227,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
             name: '检查用户登录状态',
             brief: `
 检查用户登录状态。
-1. 请求参数说明
+请求参数说明
 - 可选项
     - token: 指定用户的登陆凭证，**不填将使用当前访问者的 token**。
             `,
@@ -238,7 +238,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
             brief: `
 删除用户。
 只有用户池（或协作用户池）管理员才能执行此操作。
-1. 参数说明
+参数说明
 - ids: 列表类型。
 - registerInClient: 用户池 ID
 - operator
@@ -303,7 +303,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
 解绑邮箱。
 > 注：如果没有配置其他登陆方式（手机号、OAuth），将无法解绑邮箱。如需解绑，请先配置另一个登陆方式。
 
-1. 请求参数说明
+请求参数说明
 - user: 用户ID
 - client: 用户池ID
 `,
@@ -418,7 +418,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             brief: `
 删除用户池。支持批量操作。
 
-1. 请求参数说明
+请求参数说明
 - ids: 用户池ID列表。
             `
         },
@@ -427,7 +427,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             name: "修改用户池",
             brief: `
 修改用户池资料。
-1. 请求参数说明
+请求参数说明
 - client
     - _id: 用户池ID，必填。
     - 其他字段均可选，只需要填你想要修改的字段。
@@ -438,7 +438,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             name: '绑定社会化登录',
             brief: `
 绑定第三方社会化账号, Authing 目前支持微信和 GitHub 两种。
-1. 请求参数说明
+请求参数说明
 - user: 用户 ID
 - client: 用户池 ID
 - type: 第三方社会化账号平台，选项为 "github" 和 "wechat"。
@@ -451,7 +451,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             name: '取消绑定社会化登录',
             brief: `
 解绑社会化登录。
-1. 请求参数说明
+请求参数说明
 - user: 用户 ID
 - client: 用户池 ID
 - type: 第三方社会化账号平台，选项为 "github" 和 "wechat"。
@@ -460,30 +460,55 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
         },
 
         setInvitationState: {
-            name: '开启/关闭手机号注册白名单限制',
-            brief: '开启或关闭手机号注册时的白名单限制。',
+            name: '开启/关闭注册白名单限制',
+            brief: `
+开启/关闭注册白名单限制。
+> 目前只支持手机号白名单，后续会慢慢支持更多。
+请求参数说明：
+- client: 用户池ID
+- enablePhone: 布尔值，是否开启手机号白名单机制。
+`,
             type: '注册白名单'
         },
         queryInvitationState: {
-            name: '查看用户池的手机号白名单开启状态',
-            brief: '此接口需要发送 Token，建议直接使用 OwnerToken。',
+            name: '查看白名单机制开启状态',
+            brief: `
+查看白名单机制开启状态。
+请求参数说明：
+- client: 用户池ID
+            `,
             type: '注册白名单'
         },
         addToInvitation: {
             name: '增加手机号到白名单',
-            brief: '此接口需要发送 Token，建议直接使用 OwnerToken。',
+            brief: `
+增加手机号到白名单。
+请求参数说明：
+- client: 用户池ID
+- phone: 手机号
+            `,
             type: '注册白名单'
         },
         removeFromInvitation: {
             name: '从白名单中删除手机号',
-            brief: '此接口需要发送 Token，建议直接使用 OwnerToken。',
+            brief: `
+从白名单中删除手机号。
+请求参数说明：
+- client: 用户池ID
+- phone: 手机号
+            `,
             type: '注册白名单'
         },
         queryInvitation: {
             name: '查看白名单中的手机号',
-            brief: '此接口需要发送 Token，建议直接使用 OwnerToken。',
+            brief: `
+查看白名单中的手机号列表。
+请求参数说明：
+- client: 用户池ID
+            `,
             type: '注册白名单'
         },
+        
         queryMFA: {
             name: '查询 MFA 信息',
             brief: '通过用户 id 和用户池 id 参数来查询一个用户的 MFA 信息，此时 userId 和 userPoolId 两个参数必填。\n也可以通过 MFA 主体的 id 来查询 MFA 的信息，此时只需传入 _id 参数，userId 和 userPoolId 参数可以不传。',
