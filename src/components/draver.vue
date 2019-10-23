@@ -726,6 +726,10 @@ span.text {
   width: 100%
 }
 
+.markdownDocContainer>ol>li{
+  margin-top: 5px
+}
+
 blockquote {
   border-left: 4px solid #ccc;
   padding-left: 11px;
