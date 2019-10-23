@@ -13,7 +13,7 @@ const state = {
 > 出于安全性考虑，进行删除用户、创建角色等操作前需要先获取 accessToken。  
 
 2. 如何获取 accessToken？
-> 需要两个参数
+需要两个参数
 - \`clientId\`
 - \`secret\`
 
@@ -38,6 +38,9 @@ const state = {
         register: {
             name: '注册',
             brief: '用户注册。\n此接口不需要发送任何 Token, 密码采用非对称加密方式。参见 https://docs.authing.cn/authing/sdk/open-graphql#zhu-ce',
+            brief: `
+1. 注册有多种方式
+            `,
             type: '用户鉴权'
         },
         login: {
@@ -113,15 +116,15 @@ const state = {
         isClientOfUser: {
             type: '用户池管理'
         },
-        userClientList: {
-            type: '用户池管理'
-        },
+        // userClientList: {
+        //     type: '用户池管理'
+        // },
         isClientBelongToUser: {
             type: '用户池管理'
         },
-        queryClient: {
-            type: '用户池管理'
-        },
+        // queryClient: {
+        //     type: '用户池管理'
+        // },
         UserClientType: {
             type: '用户池管理'
         },
