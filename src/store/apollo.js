@@ -508,7 +508,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             `,
             type: '注册白名单'
         },
-        
+
         queryMFA: {
             name: '查询 MFA 信息',
             brief: '通过用户 id 和用户池 id 参数来查询一个用户的 MFA 信息，此时 userId 和 userPoolId 两个参数必填。\n也可以通过 MFA 主体的 id 来查询 MFA 的信息，此时只需传入 _id 参数，userId 和 userPoolId 参数可以不传。',
@@ -519,30 +519,117 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             brief: '通过用户 id 和用户池 id 参数来查询一个用户的 MFA 信息，此时 userId 和 userPoolId 两个参数必填。\n也可以通过 MFA 主体的 id 来查询 MFA 的信息，此时只需传入 _id 参数，userId 和 userPoolId 参数可以不传。',
             type: 'MFA 多因素认证'
         },
-        getWebhookDetail: {
-            name: "获取 webhook 详情",
-            type: 'WebHook API'
+
+        addClientWebhook: {
+            type: 'WebHook API',
+            name: "添加 Webhook",
+            brief: `
+添加 webhook。
+1. Webhook 有什么用
+
+Webhooks 允许你对用户注册、登录等**事件**进行监听，从而对其做一些自定义处理。这能让Authing和你的业务更好地联动起来。
+Authing 内置了丰富的事件，目前包含注册、登录、修改密码、修改用户信息、用户邮箱被验证五种。
+开发者可以在后台 基础配置 -> Webhook 里面管理自己的 webhook。
+
+![](http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-23-132141.png)
+
+2. 支持事件列表
+
+- register: 注册
+- change-user-info: 修改用户信息
+- login: 登陆
+- change-password: 修改密码
+- email-verified: 用户邮箱被验证
+
+3. 有哪些应用场景？
+
+假设你的应用有 “用户验证邮箱可获积分” 这个业务需求，你可以添加一个监控 \`email-verified\` 事件的 webhook, 每次有用户成功验证邮箱之后，
+Authing 将会向你定义的 webhook 地址发送携带该名用户ID的请求，然后你可以通过此用户的 ID 完成相关操作。
+
+4. Authing 的回调请求包含哪些数据？
+
+详情见“发送 Webhook 测试”部分的文档。
+
+5. 请求参数说明
+- 必填项
+    - client: 用户池ID
+    - events: 监听的事件列表，具体的事件名称见上文。
+    - url: webhook 回调地址
+    - contentType: 指定发起 Webhook 请求时 Request body 的数据格式，可选值有 application/json 和 application/x-www-form-urlencoded
+    - enable: 是否启用。
+- 可选参数
+    - secret: 请求秘钥。如果设置, Authing将会在向 Webhook 回调地址发起请求时，带上\`X-Authing-Token\` 的请求头。开发者可以对此秘钥进行验证，用来防止第三方的恶意请求。
+`
         },
+
         getAllWebhooks: {
             type: 'WebHook API',
-            name: "获取用户池 WebHook 列表"
+            name: "获取用户池 WebHook 列表",
+            brief: `
+查看配置的 WebHook 列表。
+请求参数：
+- client: 必填。用户池ID。
+            `
         },
-        getWebhookLogDetail: {
+
+        getWebhookDetail: {
+            name: "获取 webhook 详情",
             type: 'WebHook API',
-            name: "获取 Webhook 日志详情"
+            brief: `
+获取 webhook 详情。
+            `
         },
+
         getWebhookLogs: {
             type: 'WebHook API',
             name: "获取 Webhook 日志列表"
         },
+        
+        getWebhookLogDetail: {
+            type: 'WebHook API',
+            name: "获取 Webhook 日志详情",
+            brief: `
+获取 Webhook 日志详情。
+1. 请求参数
+- id：日志ID。
+2. 返回数据示例
+
+- 日志详情里面包含了具体的 response 和 request。
+
+\`\`\`
+{ 
+    "data":{ 
+       "getWebhookLogDetail":{ 
+          "_id":"5dad7b85ca72c4d67c146c9d",
+          "request":{ 
+             "headers":"{\"Accept\":\"application/json, text/plain, */*\",\"Content-Type\":\"application/json\",\"User-Agent\":\"Authing-hook\",\"X-Authing-Token\":\"\",\"X-Authing-Event\":\"register\",\"Content-Length\":1416}",
+             "payload":"{\"success\":1,\"message\":\"注册成功\",\"executedAt\":1571650437755,\"params\":{\"phone\":\"\",\"emailVerified\":true,\"phoneVerfified\":false,\"username\":null,\"nickname\":\"Nikola Tesla\",\"company\":\"\",\"photo\":\"https://usercontents.authing.cn/authing-avatar.png\",\"browser\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36\",\"device\":\"\",\"password\":\"\",\"loginsCount\":0,\"registerMethod\":\"ldap:default::from-undefined\",\"blocked\":false,\"isDeleted\":false,\"oauth\":\"{\\\"dn\\\":\\\"uid=tesla,dc=example,dc=com\\\",\\\"controls\\\":[],\\\"objectClass\\\":[\\\"inetOrgPerson\\\",\\\"organizationalPerson\\\",\\\"person\\\",\\\"top\\\",\\\"posixAccount\\\"],\\\"cn\\\":\\\"Nikola Tesla\\\",\\\"sn\\\":\\\"Tesla\\\",\\\"uid\\\":\\\"tesla\\\",\\\"mail\\\":\\\"tesla@ldap.forumsys.com\\\",\\\"uidNumber\\\":\\\"88888\\\",\\\"gidNumber\\\":\\\"99999\\\",\\\"homeDirectory\\\":\\\"home\\\"}\",\"phoneCode\":\"\",\"name\":\"\",\"givenName\":\"\",\"familyName\":\"\",\"middleName\":\"\",\"profile\":\"\",\"preferredUsername\":\"\",\"website\":\"\",\"gender\":\"\",\"birthdate\":\"\",\"zoneinfo\":\"\",\"locale\":\"\",\"address\":\"\",\"formatted\":\"\",\"streetAddress\":\"\",\"locality\":\"\",\"region\":\"\",\"postalCode\":\"\",\"country\":\"\",\"updatedAt\":\"\",\"_id\":\"5dad7b85ca72c4411f146c94\",\"email\":\"tesla@ldap.forumsys.com\",\"unionid\":\"uid=tesla,dc=example,dc=com\",\"lastIP\":\"124.204.56.98\",\"registerInClient\":\"5d11dcc331f4173231ed6a8d\",\"salt\":\"973i1gi516oe\",\"lastLogin\":\"2019-10-21T09:33:57.215Z\",\"signedUp\":\"2019-10-21T09:33:57.215Z\",\"__v\":0}}",
+             "__typename":"WebhookRequestType"
+          },
+          "response":{ 
+             "headers":"{\"server\":\"Tengine\",\"content-type\":\"text/html; charset=utf-8\",\"content-length\":\"151\",\"connection\":\"close\",\"date\":\"Mon, 21 Oct 2019 09:33:57 GMT\",\"set-cookie\":[\"acw_tc=2a51cb1915716504377745773e1485a843311545077f946adc7ec8485a;path=/;HttpOnly;Max-Age=2678401\",\"connect.sid=s%3AcFJ7sVEU-BZS7HO-3FbcP88psRLo4TS7.RJNHX5OKSpO1lcHQrYJR3B872epYWQz8BwFJhxRqANU; Path=/; HttpOnly\"],\"access-control-allow-origin\":\"*\",\"x-frame-options\":\"SAMEORIGIN\",\"x-dns-prefetch-control\":\"off\",\"strict-transport-security\":\"max-age=15552000; includeSubDomains\",\"x-download-options\":\"noopen\",\"x-content-type-options\":\"nosniff\",\"x-xss-protection\":\"1; mode=block\",\"content-security-policy\":\"default-src 'none'\",\"ali-swift-global-savetime\":\"1571650437\",\"via\":\"cache2.l2cn1793[28,404-1280,M], cache2.l2cn1793[28,0], vcache5.cn2020[88,404-1280,M], vcache5.cn2020[90,0]\",\"x-swift-error\":\"orig response 4XX error, orig response 4XX error\",\"x-cache\":\"MISS TCP_MISS dirn:-2:-2\",\"x-swift-savetime\":\"Mon, 21 Oct 2019 09:33:57 GMT\",\"x-swift-cachetime\":\"0\",\"timing-allow-origin\":\"*\",\"eagleid\":\"2a51cb1915716504377745773e\"}",
+             "body":"\"<!DOCTYPE html>\\n<html lang=\\\"en\\\">\\n<head>\\n<meta charset=\\\"utf-8\\\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>Cannot POST /auth/xcx-sm</pre>\\n</body>\\n</html>\\n\"",
+             "statusCode":null,
+             "__typename":"WebhookResponseType"
+          },
+          "errorMessage":"",
+          "when":"2019-10-21 17:33:57",
+          "__typename":"WebhookLog"
+       }
+    }
+}
+
+
+
+\`\`\`
+            `
+        },
+        
         getWebhookSettingOptions: {
             type: 'WebHook API',
             name: "获取 Webhook 设置选项"
         },
-        addClientWebhook: {
-            type: 'WebHook API',
-            name: "添加 Webhook"
-        },
+
         updateClientWebhook: {
             type: 'WebHook API',
             name: "修改 Webhook"
@@ -555,27 +642,27 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             type: 'WebHook API',
             name: "发送 Webhook 测试"
         },
-        ClientWebhook: {
-            type: 'WebHook API'
-        },
-        WebhookEvent: {
-            type: 'WebHook API'
-        },
-        WebhookLog: {
-            type: 'WebHook API'
-        },
-        WebhookRequestType: {
-            type: 'WebHook API'
-        },
-        WebhookResponseType: {
-            type: 'WebHook API'
-        },
-        WebhookSettingOptions: {
-            type: 'WebHook API'
-        },
-        WebhookContentType: {
-            type: 'WebHook API'
-        },
+        // ClientWebhook: {
+        //     type: 'WebHook API'
+        // },
+        // WebhookEvent: {
+        //     type: 'WebHook API'
+        // },
+        // WebhookLog: {
+        //     type: 'WebHook API'
+        // },
+        // WebhookRequestType: {
+        //     type: 'WebHook API'
+        // },
+        // WebhookResponseType: {
+        //     type: 'WebHook API'
+        // },
+        // WebhookSettingOptions: {
+        //     type: 'WebHook API'
+        // },
+        // WebhookContentType: {
+        //     type: 'WebHook API'
+        // },
         LoginByLDAP: {
             // 使用 LDAP 登录，登录后返回的 Token 需要在客户端维护
             name: '使用 LDAP 登录',
