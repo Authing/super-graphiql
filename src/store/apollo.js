@@ -423,12 +423,26 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
 
         bindOtherOAuth: {
             name: '绑定社会化登录',
-            brief: '用户绑定第三方登录方式。此接口发送 UserToken。',
+            brief: `
+绑定第三方社会化账号, Authing 目前支持微信和 GitHub 两种。
+1. 请求参数说明
+- user: 用户 ID
+- client: 用户池 ID
+- type: 第三方社会化账号平台，选项为 "github" 和 "wechat"。
+- unionid: 第三方社会化账号在此平台的 unionid
+- userInfo: 第三方社会化账号的资料,可以是任意字符串。
+`,
             type: '社会化登录'
         },
         unbindOtherOAuth: {
             name: '取消绑定社会化登录',
-            brief: '用户解绑第三方登录方式。此接口发送 UserToken。',
+            brief: `
+解绑社会化登录。
+1. 请求参数说明
+- user: 用户 ID
+- client: 用户池 ID
+- type: 第三方社会化账号平台，选项为 "github" 和 "wechat"。
+            `,
             type: '社会化登录'
         },
         unbindEmail: {
