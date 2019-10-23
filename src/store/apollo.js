@@ -261,7 +261,10 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         },
         sendResetPasswordEmail: {
             name: '发送重置密码邮件',
-            brief: '此接口用来发送验证码短信。',
+            brief: `
+Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** -> **邮件模版** 查看或修改邮件模板。
+详细内容请见 [Authing官方文档](https://docs.authing.cn/authing/messages/email)。
+            `,
             type: '用户管理'
         },
         verifyResetPasswordVerifyCode: {
