@@ -54,7 +54,7 @@ const state = {
             - \`unionid\`
             - \`email\`
             - \`phone\`: 注：若管理员开启了注册白名单机制，此手机号需要在白名单之内。
-            - \`password\`: 加密过后的密码，加密方式见[Authing文档](https://docs.authing.cn/authing/v/master/sdk/open-graphql#zhu-yi-shi-xiang-2)。
+            - \`password\`: 加密过后的密码，加密方式见[Authing官方文档](https://docs.authing.cn/authing/v/master/sdk/open-graphql#zhu-yi-shi-xiang-2)。
             - \`forceLogin\`: 默认为false, 如果设置为 true, 用户不存在时会先自动创建。
             - \`photo\`: 用户头像，如果域名不是 Authing 的 CDN，将会先被上传至 Authing CDN。
             - \`lastIP\`: 用户注册时的 IP, 如果未提供，Authing 将会从请求中自动推断。
@@ -284,12 +284,24 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
         },
         changePassword: {
             name: '修改密码',
-            brief: '此接口用来更改忘记密码后的新密码，需要携带 verifyCode，不用发送 Token，正常的密码修正请使用上面的 update 接口。',
+            brief: `
+修改密码。只支持通过邮箱注册的账号的密码，不需要登陆，但是需要使用验证码。
+1. 请求参数说明
+- password: 新密码，需要加密，加密方式见[Authing官方文档](https://docs.authing.cn/authing/v/master/sdk/open-graphql#zhu-yi-shi-xiang-2)。
+- client: 用户池ID
+- email: 邮箱
+- verifyCode: 验证码
+2. 如何获取验证码？
+见“发送重置密码邮件”。
+            `,
             type: '用户管理'
         },
         
         userClients: {
             name: "用户池列表",
+            brief: `
+
+            `,
             type: '用户池管理'
         },
 
