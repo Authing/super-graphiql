@@ -464,7 +464,9 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             brief: `
 开启/关闭注册白名单限制。
 > 目前只支持手机号白名单，后续会慢慢支持更多。
+
 请求参数说明：
+
 - client: 用户池ID
 - enablePhone: 布尔值，是否开启手机号白名单机制。
 `,
@@ -524,7 +526,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             type: 'WebHook API',
             name: "添加 Webhook",
             brief: `
-添加 webhook。
+添加 webhook。相关文档请查看 [Authing官方文档](https://learn.authing.cn/authing/advanced/use-webhook)
 1. Webhook 有什么用
 
 Webhooks 允许你对用户注册、登录等**事件**进行监听，从而对其做一些自定义处理。这能让Authing和你的业务更好地联动起来。
@@ -534,6 +536,8 @@ Authing 内置了丰富的事件，目前包含注册、登录、修改密码、
 ![](http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-23-132141.png)
 
 2. 支持事件列表
+
+> 支持的事件列表可以通过 “获取 Webhook 配置项” 接口获取。
 
 - register: 注册
 - change-user-info: 修改用户信息
@@ -572,17 +576,44 @@ Authing 将会向你定义的 webhook 地址发送携带该名用户ID的请求�
             `
         },
 
-        getWebhookDetail: {
-            name: "获取 webhook 详情",
-            type: 'WebHook API',
-            brief: `
-获取 webhook 详情。
-            `
-        },
+//         getWebhookDetail: {
+//             name: "获取 webhook 详情",
+//             type: 'WebHook API',
+//             brief: `
+// 获取 webhook 详情。
+//             `
+//         },
 
         getWebhookLogs: {
             type: 'WebHook API',
-            name: "获取 Webhook 日志列表"
+            name: "获取 Webhook 日志列表",
+            brief: `
+获取 webhook 日志列表。
+1. 请求参数：
+- webhook: Webhook id
+
+2. 返回数据示例
+
+\`\`\`
+{ 
+    "data":{ 
+       "getWebhookLogs":[ 
+          { 
+             "_id":"5db1027291e5e68013xxxxxxx",
+             "event":"login", // 触发的事件为 login
+             "response":{ 
+                "statusCode":null,
+                "__typename":"WebhookResponseType"
+             },
+             "errorMessage":"Request failed with status code 404",
+             "when":"2019-10-24 09:46:26",
+             "__typename":"WebhookLog"
+          }
+       ]
+    }
+ }
+\`\`\`
+            `
         },
         
         getWebhookLogDetail: {
@@ -619,28 +650,108 @@ Authing 将会向你定义的 webhook 地址发送携带该名用户ID的请求�
     }
 }
 
-
-
 \`\`\`
             `
         },
         
         getWebhookSettingOptions: {
             type: 'WebHook API',
-            name: "获取 Webhook 设置选项"
+            name: "获取 Webhook 配置项",
+            brief: `
+获取 Webhook 配置项。此接口无需参数。
+
+返回数据：
+\`\`\`
+{
+    "data": {
+      "getWebhookSettingOptions": {
+        "contentTypes": [
+          {
+            "name": "application/json",
+            "label": "application/json"
+          },
+          {
+            "name": "application/x-www-form-urlencoded",
+            "label": "application/x-www-form-urlencoded"
+          }
+        ],
+        "webhookEvents": [
+          {
+            "name": "register",
+            "label": "注册",
+            "description": "注册事件"
+          },
+          {
+            "name": "login",
+            "label": "登录",
+            "description": "登录事件"
+          },
+          {
+            "name": "change-password",
+            "label": "修改密码",
+            "description": "修改密码事件"
+          },
+          {
+            "name": "change-user-info",
+            "label": "修改用户信息",
+            "description": "修改用户信息事件"
+          },
+          {
+            "name": "email-verified",
+            "label": "用户邮箱被验证",
+            "description": "用户邮箱被验证事件"
+          }
+        ]
+      }
+    }
+  }
+\`\`\`
+            `
         },
 
         updateClientWebhook: {
             type: 'WebHook API',
-            name: "修改 Webhook"
+            name: "修改 Webhook",
+            brief: `
+修改 Webhook。
+请求参数：
+- 必填项
+    - id: webhook ID
+    - events: 监听的事件列表，具体的事件名称见“添加 Webhook”接口。
+    - url: webhook 回调地址
+    - contentType: 指定发起 Webhook 请求时 Request body 的数据格式，可选值有 application/json 和 application/x-www-form-urlencoded
+    - enable: 是否启用。
+- 可选参数
+    - secret: 请求秘钥。如果设置, Authing将会在向 Webhook 回调地址发起请求时，带上\`X-Authing-Token\` 的请求头。开发者可以对此秘钥进行验证，用来防止第三方的恶意请求。
+`
         },
+
         deleteClientWebhook: {
             type: 'WebHook API',
-            name: "删除 Webhook"
+            name: "删除 Webhook",
+            brief: `
+删除 Webhook。
+请求参数：
+- 必填项
+    - id: Webhook ID
+            `
         },
+
         SendWebhookTest: {
             type: 'WebHook API',
-            name: "发送 Webhook 测试"
+            name: "发送 Webhook 测试请求",
+            brief: `
+发送 Webhook 测试请求。
+
+Authing 将会向该 Webhook 配置的 url 发起 **POST** 请求。
+- 请求格式: application/json 或 application/x-www-form-urlencoded，开发者可配置（具体查看 "添加 Webhook" 部分）。
+- 请求体 body:
+\`\`\`
+{
+    "description": "A test from Authing Webhook"
+}
+\`\`\`
+            `
         },
         // ClientWebhook: {
         //     type: 'WebHook API'
