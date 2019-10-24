@@ -256,7 +256,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
 参数说明
 - ids: 列表类型。
 - registerInClient: 用户池 ID
-- operator
+- operator: 操作人ID, Authing 会记录，便于之后审计。 
             `,
             type: '用户管理'
         },
@@ -352,8 +352,6 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
 - 必填参数
     - id: 用户池 ID
     - userId: 用户池创建者ID
-- 选填参数
-    - fromAdmin
 
 2. 部分返回数据说明
 - user: 用户池创建者。
@@ -364,7 +362,6 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
 - useMiniLogin：是否使用微信小程序“小登陆”。
 - allowedOrigins：安全域（Allowed Origins） 是允许从 JavaScript 向 Authing API 发出请求的 URL（通常与 CORS 一起使用）。 默认情况下，系统会允许你使用所有网址。 如果需要，此字段允许你输入其他来源。 你可以通过逐行分隔多个有效 URL，并在子域级别使用通配符（例如：https://*.sample.com）。 验证这些 URL 时不考虑查询字符串和哈希信息，如果带上了查询字符串和哈希信息系统会自动忽略整个域名。
 - secret：用户池密钥，通过 用户池 -> 基础配置 可以查看。
-- token：？
 - jwtExpired：jwt 过期时间
 - frequentRegisterCheck: 注册频率限制。
             `,
@@ -809,17 +806,45 @@ Authing 将会向该 Webhook 配置的 url 发起 **POST** 请求。
         LoginByLDAP: {
             // 使用 LDAP 登录，登录后返回的 Token 需要在客户端维护
             name: '使用 LDAP 登录',
-            brief: '使用 LDAP 登录，登录后返回的 Token 需要在客户端维护。',
+            brief: `
+使用 LDAP 登录，登录后返回的 Token 需要在客户端维护。
+LDAP 是一个树型的用来存储用户和组织信息的数据库，常被用来做单点登录和组织架构管理。前往[Authing官方文档 - LDAP](https://learn.authing.cn/authing/advanced/ldap)了解更多。 
+
+1. 请求参数：
+- 必填项
+    - username: 用户名
+    - password: 密码
+    - clientId: 用户池ID
+- 选填项
+    - browser: 访问浏览器
+
+2. 返回数据
+
+登陆成功之后会返回登陆用户的详细数据，其中包含 \`token\`(登陆凭证)，客户端需要妥善保存。
+`,
             type: 'OAuth API'
         },
         GetUserAuthorizedApps: {
             name: '查询用户授权过的 SSO 应用列表',
-            brief: '此接口需要发送 Token，可以使用 UserToken 或 OwnerToken。',
+            brief: `
+查询用户授权过的 SSO 应用列表。此接口需要携带登陆凭证 token。支持分页。
+请求参数:
+- clientId: 用户池ID
+- userId: 用户ID
+- page
+- count
+            `,
             type: 'OAuth API'
         },
         RevokeUserAuthorizedApp: {
             name: '撤回用户对 SSO 应用的授权',
-            brief: '此接口用于撤回一个用户池内，某个用户对该用户池下的某个 SSO 应用的授权。撤回授权后，用户在 SSO 登录页面登录时，会再次显示确权页面。',
+            brief: `
+此接口用于撤回一个用户池内，某个用户对该用户池下的某个 SSO 应用的授权。撤回授权后，用户在 SSO 登录页面登录时，会再次显示确权页面。
+请求参数：
+- userId: 用户ID
+- userPoolId: 用户池ID
+- appId: SSO 应用 ID
+`,
             type: 'OAuth API'
         },
 
