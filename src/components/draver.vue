@@ -32,14 +32,206 @@
             <Icon type="md-code-working" size="16" style="margin-right: 4px;" />生成查询语句
           </span>
         </div>
-        <p>
-          {{ clearUrlInString(((apiInfo.description && apiInfo.description.length > 0) && apiInfo.description) || (apiDocs[apiInfo['name']] && apiDocs[apiInfo['name']]['brief']) || '暂无描述，详情请见文档：') }}
-          <a
-            v-if="!(apiInfo.description && apiInfo.description.length > 0)"
-            :href="getUrlInString(((apiInfo.description && apiInfo.description.length > 0) && apiInfo.description) || (apiDocs[apiInfo['name']] && apiDocs[apiInfo['name']]['brief']) || '暂无描述，详情请见文档：') || 'https://docs.authing.cn/authing/sdk/open-graphql'"
-            target="_blank"
-          >{{ getUrlInString(((apiInfo.description && apiInfo.description.length > 0) && apiInfo.description) || (apiDocs[apiInfo['name']] && apiDocs[apiInfo['name']]['brief']) || '暂无描述，详情请见文档：') || 'https://docs.authing.cn/authing/sdk/open-graphql' }}</a>
-        </p>
+
+        <Alert v-if="apiScenes==='admin'">
+          提示
+          <template slot="desc">
+            <span
+              @click="showUsageModal('admin')"
+              class="tokenUsageReminderText"
+            >此接口需要发送用户池管理员 Token，<a href="#">发送方式请点击这里查看</a>。 </span>
+          </template>
+        </Alert>
+
+        <Alert v-if="apiScenes==='both'">
+          提示
+          <template slot="desc">
+            <span
+              @click="showUsageModal('both')"
+              class="tokenUsageReminderText"
+            >此接口需要发送用户池管理员 Token 或用户 Token，了解二者不同以及发送方式，<a href="#">请点击这里查看</a>。</span>
+          </template>
+        </Alert>
+
+        <Alert v-if="apiScenes==='user'">
+          提示
+          <template slot="desc">
+            <span
+              @click="showUsageModal('user')"
+              class="tokenUsageReminderText"
+            >此接口需要发送用户 Token，<a href="#">发送方式请点击这里查看</a>。</span>
+          </template>
+        </Alert>
+
+        <Alert v-if="apiScenes==='mfa'">
+          提示
+          <template slot="desc">
+            <span
+              @click="showUsageModal('mfa')"
+              class="tokenUsageReminderText"
+            >MFA 多因素认证接口需要发送 Token，<a href="#">发送方式请点击这里查看</a>。</span>
+          </template>
+        </Alert>
+
+        <Modal
+          v-model="showAdminTokenUsage"
+          title="如何使用管理员 Token?"
+          @on-ok="hideUsageModal('admin')"
+        >
+          <ol>
+            <li>如何获取管理员 Token?</li>
+            <span>
+              调用
+              <b>用户池鉴权</b> ->
+              <b>初始化</b> 接口会返回管理员 Token。(即
+              <code>accessToken</code> )
+            </span>
+            <li>如何发送 Token？</li>
+            <span>
+              添加到 HTTP 请求的
+              <a
+                href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Authorization"
+              >Authorization Header</a> 中，
+              并在前面加上 "
+              <code>Bearer</code>"（别忘了空格），比如你获取到的
+              <code>accessToken</code> 为
+              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>,
+              那么最终的 Authorization 请求头就是
+              <code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>
+            </span>
+            <li>如何在界面中模拟发送 Token</li>
+            <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
+            <img
+              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
+              style="width: 100%;"
+              alt
+            />
+          </ol>
+        </Modal>
+
+        <Modal v-model="showUserTokenUsage" title="如何使用用户 Token?" @on-ok="hideUsageModal('user')">
+          <ol>
+            <li>如何获取用户 Token?</li>
+            <span>
+              调用
+              <b>用户鉴权</b> ->
+              <b>登录</b> 接口会返回用户 Token。
+            </span>
+            <li>如何发送 Token？</li>
+            <span>
+              添加到 HTTP 请求的
+              <a
+                href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Authorization"
+              >Authorization Header</a> 中，
+              并在前面加上 "
+              <code>Bearer</code>"（别忘了空格），比如你获取到的
+              <code>accessToken</code> 为
+              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>,
+              那么最终的 Authorization 请求头就是
+              <code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>
+            </span>
+            <li>如何在界面中模拟发送 Token</li>
+            <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
+            <img
+              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
+              style="width: 100%;"
+              alt
+            />
+          </ol>
+        </Modal>
+
+        <Modal
+          v-model="showMFATokenUsage"
+          title="如何发送 MFA  多因素认证所需的 Token?"
+          @on-ok="hideUsageModal('mfa')"
+        >
+          <ol>
+            <li>修改 MFA 和 查询 MFA使用的 Token 有所区别</li>
+            <span>修改 MFA 必须使用终端用户的 Token, 查询 MFA 可以使用终端用户的 Token 和管理员的 Token。</span>
+            <span>终端用户的 Token 只能查询自己的 MFA, 而管理员的 Token 可以用户池所有用户的 MFA。</span>
+            <li>如何获取管理员 Token?</li>
+            <span>
+              调用
+              <b>用户池鉴权</b> ->
+              <b>初始化</b> 接口会返回管理员 Token。(即
+              <code>accessToken</code> )
+            </span>
+            <li>如何获取用户 Token?</li>
+            <span>
+              调用
+              <b>用户鉴权</b> ->
+              <b>登录</b> 接口会返回用户 Token。
+            </span>
+            <li>如何发送 Token？</li>
+            <span>
+              添加到 HTTP 请求的
+              <a
+                href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Authorization"
+              >Authorization Header</a> 中，
+              并在前面加上 "
+              <code>Bearer</code>"（别忘了空格），比如你获取到的
+              <code>accessToken</code> 为
+              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>,
+              那么最终的 Authorization 请求头就是
+              <code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>
+            </span>
+            <li>如何在界面中模拟发送 Token</li>
+            <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
+            <img
+              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
+              style="width: 100%;"
+              alt
+            />
+          </ol>
+        </Modal>
+
+        <Modal
+          v-model="showBothTokenUsage"
+          title="如何判断你需要那种 Token? 如何发送 Token？"
+          @on-ok="hideUsageModal('both')"
+        >
+          <ol>
+            <li>管理员Token 和用户 Token 适用的目标用户不同。</li>
+            <span>用户池管理员 Token 可以操作该用户池中所有的用户。</span>
+            <span>终端用户的 Token 只能操作该用户自己。</span>
+            <li>如何获取管理员 Token?</li>
+            <span>
+              调用
+              <b>用户池鉴权</b> ->
+              <b>初始化</b> 接口会返回管理员 Token。(即
+              <code>accessToken</code> )
+            </span>
+            <li>如何获取用户 Token?</li>
+            <span>
+              调用
+              <b>用户鉴权</b> ->
+              <b>登录</b> 接口会返回用户 Token。
+            </span>
+            <li>如何发送 Token？</li>
+            <span>
+              添加到 HTTP 请求的
+              <a
+                href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Authorization"
+              >Authorization Header</a> 中，
+              并在前面加上 "
+              <code>Bearer</code>"（别忘了空格），比如你获取到的
+              <code>accessToken</code> 为
+              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>,
+              那么最终的 Authorization 请求头就是
+              <code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>
+            </span>
+            <li>如何在界面中模拟发送 Token</li>
+            <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
+            <img
+              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
+              style="width: 100%;"
+              alt
+            />
+          </ol>
+        </Modal>
+
+        <VueMarkdown :source="doc" class="markdownDocContainer"></VueMarkdown>
+
         <Divider />
         <p
           v-if="(apiInfo.fields || apiInfo.inputFields) && fields.length > 0"
@@ -187,8 +379,18 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import VueMarkdown from "vue-markdown";
+import { Alert, Modal } from "view-design";
+
 export default {
   name: "draver",
+
+  components: {
+    VueMarkdown,
+    Alert,
+    Modal
+  },
+
   data() {
     return {
       args: [],
@@ -201,7 +403,12 @@ export default {
         display: "block",
         marginBottom: "16px"
       },
-      codevalue: "hello"
+      codevalue: "hello",
+      showAdminTokenUsage: false,
+      showUserTokenUsage: false,
+      showMFATokenUsage: false,
+      showBothTokenUsage: false,
+      apiScenes: undefined
     };
   },
   computed: {
@@ -211,8 +418,18 @@ export default {
       "dic",
       "nowHistory",
       "historyList",
-      "apiDocs"
-    ])
+      "apiDocs",
+      "queries"
+    ]),
+
+    doc() {
+      const emptyDoc =
+        "暂无描述，详情请见文档：[https://docs.authing.cn/authing/sdk/open-graphql](https://docs.authing.cn/authing/sdk/open-graphq)";
+      const apiName = this.apiInfo["name"];
+      const apiDoc = this.apiDocs[apiName];
+      const brief = apiDoc && apiDoc["brief"] ? apiDoc["brief"] : undefined;
+      return brief || emptyDoc;
+    }
   },
   watch: {
     drawerShow() {
@@ -233,6 +450,31 @@ export default {
       "lastHistory",
       "nextHistory"
     ]),
+
+    showUsageModal(type) {
+      if (type === "admin") {
+        this.showAdminTokenUsage = true;
+      } else if (type === "user") {
+        this.showUserTokenUsage = true;
+      } else if (type === "mfa") {
+        this.showMFATokenUsage = true;
+      } else if (type == "both") {
+        this.showBothTokenUsage = true;
+      }
+    },
+
+    hideUsageModal(type) {
+      if (type === "admin") {
+        this.showAdminTokenUsage = false;
+      } else if (type === "user") {
+        this.showUserTokenUsage = false;
+      } else if (type === "mfa") {
+        this.showMFATokenUsage = false;
+      } else if (type == "both") {
+        this.showBothTokenUsage = false;
+      }
+    },
+
     hideDrawer() {
       this.changeDrawerShow({ show: false });
       this.modalShow = false;
@@ -240,8 +482,15 @@ export default {
       this.fields = [];
       this.clearHistoryList();
     },
+
+    updateAPIScenes(apiName) {
+      const apiDoc = this.apiDocs[apiName];
+      this.apiScenes = apiDoc.tokenType;
+    },
+
     dealWithApiInfo() {
       let api = this.apiInfo;
+      this.updateAPIScenes(api.name);
       try {
         if (
           api.args &&
@@ -385,200 +634,9 @@ export default {
       this.lastHistory();
     },
     makeGQLCode() {
-      let str = "";
-      let that = this;
-      function getArgs(list, showType) {
-        if (!list) {
-          return false;
-        }
-        let tmp = list.args || list.inputFields || list.fields || [];
-        let arr = [];
-        for (let i = 0; i < tmp.length; i++) {
-          try {
-            let tp = tmp[i]["type"]["ofType"]
-              ? tmp[i]["type"]["ofType"]["name"]
-              : tmp[i]["type"]["name"];
-            //alert(JSON.stringify(tmp[i]))
-            //alert(tp)
-            if (tmp[i] && tmp[i]["type"]) {
-              if (getArgs(that.dic[tp])) {
-                arr.push(getArgs(that.dic[tp]));
-              } else {
-                if (tmp[i]["type"]["kind"] == "NON_NULL") {
-                  arr.push("$" + tmp[i]["name"] + ": " + tp + "!");
-                } else {
-                  arr.push("$" + tmp[i]["name"] + ": " + tp);
-                }
-              }
-            }
-          } catch (err) {
-            alert(err);
-          }
-        }
-        return arr.join(", ");
-      }
+      const apiName = this.apiInfo.name;
+      const query = this.queries[apiName];
 
-      function getFirstArgsInObject(list) {
-        let tmp = list.args || list.inputFields || list.fields || [];
-        let arr = [];
-        for (let i = 0; i < tmp.length; i++) {
-          let tp = tmp[i]["type"]["ofType"]
-            ? tmp[i]["type"]["ofType"]["name"]
-            : tmp[i]["type"]["name"];
-          // if (
-          //   tp !== "String" &&
-          //   tp !== "Boolean" &&
-          //   tp !== "Int" &&
-          //   tp !== "Float" &&
-          //   that.dic[tp]
-          // ) {
-          //   tp = "{" + getArgs(that.dic[tp]) + "}";
-          //   arr.push(tmp[i]["name"] + ": " + tp);
-          // } else {
-          arr.push(tmp[i]["name"] + ": $" + tmp[i]["name"]);
-          //}
-        }
-        return arr;
-      }
-
-      function getSecondArgs(list, showType) {
-        let tmp = list.args || list.inputFields || list.fields || [];
-        let arr = [];
-        for (let i = 0; i < tmp.length; i++) {
-          let tp = tmp[i]["type"]["ofType"]
-            ? tmp[i]["type"]["ofType"]["name"]
-            : tmp[i]["type"]["name"];
-          if (
-            tp !== "String" &&
-            tp !== "Boolean" &&
-            tp !== "Int" &&
-            tp !== "Float" &&
-            that.dic[tp]
-          ) {
-            tp = "{" + getArgs(that.dic[tp]) + "}";
-            arr.push(tmp[i]["name"] + ": " + tp);
-          } else {
-            arr.push(tmp[i]["name"] + ": $" + tmp[i]["name"]);
-          }
-        }
-        return arr.join(", ");
-      }
-
-      function giveMeSpace(number) {
-        let space = "";
-        while (space.length < number) {
-          space = space + "  ";
-        }
-        return space;
-      }
-
-      function renderFields(info, level) {
-        let lev = level; //把层级给存起来
-        let fields = [];
-        let tmpstr = "";
-        if (!info) {
-          return "";
-        }
-        try {
-          if (
-            typeof info.fields == "object" &&
-            info.fields.length &&
-            info.fields.length > 0
-          ) {
-            fields = info.fields;
-          } else if (
-            typeof info.inputFields == "object" &&
-            info.inputFields.length &&
-            info.inputFields.length > 0
-          ) {
-            fields = info.inputFields;
-          }
-        } finally {
-          if (fields.length > 0) {
-            for (let i = 0; i < fields.length; i++) {
-              if (
-                (fields[i]["type"] &&
-                  fields[i]["type"]["name"] &&
-                  that.dic[fields[i]["type"]["name"]]) ||
-                (fields[i]["type"] &&
-                  fields[i]["type"]["ofType"] &&
-                  that.dic[fields[i]["type"]["ofType"]["name"]])
-              ) {
-                let typeName = fields[i]["type"]["name"];
-                if (
-                  fields[i]["type"] &&
-                  fields[i]["type"]["ofType"] &&
-                  fields[i]["type"]["ofType"]["name"] &&
-                  that.dic[fields[i]["type"]["ofType"]["name"]]
-                ) {
-                  //alert(fields[i]['type']['ofType']['name'])
-                  typeName = fields[i]["type"]["ofType"]["name"];
-                }
-                let res = renderFields(that.dic[typeName], lev + 1);
-                //alert(JSON.stringify(res))
-                if (res !== "") {
-                  res =
-                    giveMeSpace(lev) +
-                    fields[i]["name"] +
-                    " {\n" +
-                    res +
-                    giveMeSpace(lev) +
-                    "}\n";
-                } else {
-                  res = giveMeSpace(lev) + fields[i]["name"] + "\n";
-                }
-                tmpstr = tmpstr + res;
-              } else {
-                tmpstr = tmpstr + giveMeSpace(lev) + fields[i]["name"] + "\n";
-              }
-            }
-          } else {
-            //可能是直接返回一个 schema
-            if (
-              (info["type"] &&
-                info["type"]["name"] &&
-                that.dic[info["type"]["name"]]) ||
-              (info["type"] &&
-                info["type"]["ofType"] &&
-                that.dic[info["type"]["ofType"]["name"]])
-            ) {
-              let typeName = "";
-              if (
-                info["type"] &&
-                info["type"]["ofType"] &&
-                info["type"]["ofType"]["name"]
-              ) {
-                typeName = info["type"]["ofType"]["name"];
-              } else {
-                typeName = info["type"]["name"];
-              }
-              tmpstr =
-                tmpstr +
-                //info["name"] +
-                renderFields(that.dic[typeName], lev + 1) +
-                "\n";
-            }
-          }
-        }
-        return tmpstr;
-      }
-
-      str =
-        str +
-        this.apiInfo.type_.toLowerCase() +
-        " " +
-        (this.apiInfo.name == "User" ? "user" : this.apiInfo.name) +
-        "(" +
-        getArgs(this.apiInfo) +
-        ") {\n";
-      str =
-        str +
-        (this.apiInfo.name == "User" ? "user" : this.apiInfo.name) +
-        "(" +
-        getSecondArgs(this.apiInfo) +
-        ") { \n" +
-        renderFields(this.apiInfo, 2) +
-        "\n  }\n}";
       function copyText(text, callback) {
         // 网上找的，为了不多加库真的很拼
         var tag = document.createElement("textarea");
@@ -593,7 +651,7 @@ export default {
           callback(text);
         }
       }
-      copyText(str);
+      copyText(query);
       //alert(str);
       this.$Message.success("复制成功");
     },
@@ -605,10 +663,10 @@ export default {
 
     getUrlInString(str) {
       let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-|#)+)/g;
-      if(str && str.indexOf('https://') > -1) {
-        return reg.exec(str)[0]
+      if (str && str.indexOf("https://") > -1) {
+        return reg.exec(str)[0];
       } else {
-        return null
+        return null;
       }
     }
   }
@@ -701,5 +759,43 @@ span.text {
 .apiname {
   color: #203053;
   font-weight: bold;
+}
+
+.markdownDocContainer {
+  margin-left: 20px;
+}
+
+.ivu-modal-body ol {
+  margin-left: 11px;
+}
+
+.ivu-modal-body ol li {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.ivu-modal-body image {
+  width: 100%;
+}
+
+.markdownDocContainer ul {
+  margin-left: 13.5px;
+}
+
+.markdownDocContainer img {
+  width: 100%;
+}
+
+.markdownDocContainer > ol > li {
+  margin-top: 5px;
+}
+
+blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 11px;
+}
+
+.tokenUsageReminderText:hover {
+  cursor: pointer;
 }
 </style>

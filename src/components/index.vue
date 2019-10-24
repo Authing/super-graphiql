@@ -5,17 +5,15 @@
       <Menu
         style="width: 100%;"
         mode="horizontal"
-        theme="primary"
+        theme="light"
         :active-name="menu"
         @on-select="menuOnSelect"
       >
-        <div class="flex-row">
+        <div class="flex-row noborder">
           <div>
-            <a href="https://authing.cn/graphiql" target="_blank">
-              <MenuItem name="1">
-                <Icon type="ios-game-controller-b" />Super GQLi
-              </MenuItem>
-            </a>
+            <MenuItem name="1">
+              <Icon type="ios-game-controller-b" />Super GQLi
+            </MenuItem>
 
             <MenuItem name="2">
               <Icon type="ios-construct" />服务配置
@@ -25,17 +23,24 @@
             </MenuItem>
           </div>
 
-          <Submenu>
-            <template slot="title">
-              <Icon type="ios-paper" />学习 GraphQL
-            </template>
-            <a href="https://graphql.cn/learn/" target="_blank">
-              <MenuItem>入门 GraphQL</MenuItem>
+          <div>
+            <a href="https://gitter.im/authing-chat/community" target="_blank">
+              <MenuItem>
+                <Icon type="md-help" />获取帮助
+              </MenuItem>
             </a>
-            <a href="https://graphql.cn/code/" target="_blank">
-              <MenuItem>代码调用库</MenuItem>
-            </a>
-          </Submenu>
+            <Submenu>
+              <template slot="title">
+                <Icon type="ios-paper" />学习 GraphQL
+              </template>
+              <a href="https://graphql.cn/learn/" target="_blank">
+                <MenuItem>入门 GraphQL</MenuItem>
+              </a>
+              <a href="https://graphql.cn/code/" target="_blank">
+                <MenuItem>代码调用库</MenuItem>
+              </a>
+            </Submenu>
+          </div>
         </div>
       </Menu>
     </div>
@@ -112,6 +117,7 @@
               theme="vs"
               :options="monacoOptions"
               v-model="headers"
+              language="json"
               :style="fullHeight > 0 ? 'margin-top: 2px;height:' + (fullHeight - 62 - 60) / 2 + 'px;' : ''"
             />
             <!-- <Input
@@ -910,7 +916,7 @@ export default {
     async menuOnSelect(name) {
       if (name == 2) {
         this.openSettings();
-      } else if ((name = 3)) {
+      } else if ((name == 3)) {
         try {
           let json = JSON.stringify(this.variables);
           if (json) {
@@ -1114,7 +1120,22 @@ span.a {
 textarea.ivu-input:hover {
   border: none;
 } */
+
+.ivu-menu-item:hover {
+  border: none !important;
+}
+
+.ivu-menu-item-selected,
+.ivu-menu-item-active {
+  /* color: #fff !important; */
+  border: none !important;
+}
+
 .ivu-menu-item-selected {
-  color: #fff !important;
+  color: #515a6e !important;
+}
+
+.noborder * {
+  border: none !important;
 }
 </style>

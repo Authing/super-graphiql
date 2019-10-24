@@ -7,10 +7,14 @@ import VueApollo from 'vue-apollo'
 import apolloProvider from './apollo/provider'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import ViewUI from 'view-design';
+import 'view-design/dist/styles/iview.css';
+
 import store from './store'
 
 Vue.use(iView)
 Vue.use(VueApollo)
+Vue.use(ViewUI)
 
 /* eslint-disable no-new */
 new Vue({
