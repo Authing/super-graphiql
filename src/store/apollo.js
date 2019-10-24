@@ -89,7 +89,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         login: {
             name: '登录',
             brief: `
-登录接口。
+此接口用来执行用户登录操作。
 1. 登录场景：
 - 用户名登录
 - 邮箱登录
@@ -119,7 +119,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         decodeJwtToken: {
             name: '解析 JWT Token',
             brief: `
-解析 JWT Token。
+此接口用来解析 JWT Token。
 1. 点击 [Authing官方文档](https://learn.authing.cn/authing/advanced/authentication/jwt-token) 了解更多 JWT Token 相关内容。
 2. 解析成功示例
 \`\`\`
@@ -176,7 +176,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         refreshToken: {
             name: '刷新 Token',
             brief: `
-刷新指定用户的 JWT token。
+此接口用来刷新指定用户的 JWT token。
 1. 此 JWT token 有什么用？
 
 每个用户都有唯一对应的 JWT token, 作为登录凭证。
@@ -209,7 +209,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         user: {
             name: '读取用户资料',
             brief: `
-读取用户资料。同时支持用户 ID 和用户登录凭证读取。
+此接口用来读取用户资料。同时支持用户 ID 和用户登录凭证读取。
 1. 部分请求参数说明
 - 可选参数：
     - registerInClient: 用户池 ID。
@@ -230,7 +230,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         users: {
             name: '获取用户列表',
             brief: `
-获取用户列表。支持分页。用户信息支持基础信息和附带扩展字段两种模式。
+此接口用来获取用户列表。支持分页。用户信息支持基础信息和附带扩展字段两种模式。
 部分请求参数说明
 - registerInClient：用户池 ID
 - page: 第几页。
@@ -243,7 +243,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         checkLoginStatus: {
             name: '检查用户登录状态',
             brief: `
-检查用户登录状态。
+此接口用来检查用户登录状态。
 请求参数说明
 - 必填项
     - token: 指定用户的登录凭证。
@@ -253,7 +253,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         removeUsers: {
             name: '删除用户',
             brief: `
-删除用户。
+此接口用来删除用户。
 只有用户池（或协作用户池）管理员才能执行此操作。
 参数说明
 - ids: 列表类型。
@@ -265,7 +265,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         updateUser: {
             name: '更新用户资料',
             brief: `
-更新用户资料。
+此接口用来更新用户资料。
 1. 部分参数说明
 - options
     - 必填参数
@@ -279,7 +279,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         sendResetPasswordEmail: {
             name: '发送重置密码邮件',
             brief: `
-发送"重置密码"邮件。
+此接口用来发送"重置密码"邮件。
 Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** -> **邮件模版** 查看或修改邮件模板。
 详细内容请见 [Authing官方文档](https://docs.authing.cn/authing/messages/email)。
             `,
@@ -288,21 +288,21 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
         verifyResetPasswordVerifyCode: {
             name: '验证重置密码验证码',
             brief: `
-发送“重置密码”邮件。   
+此接口用来发送“重置密码”邮件。   
 `,
             type: '用户管理'
         },
         sendVerifyEmail: {
             name: '发送验证邮件',
             brief: `
-发送“验证邮箱”邮件。
+此接口用来发送“验证邮箱”邮件。
             `,
             type: '用户管理'
         },
         changePassword: {
             name: '修改密码',
             brief: `
-修改密码。只支持通过邮箱注册的账号的密码，不需要登录，但是需要使用验证码。
+此接口用来修改密码。只支持通过邮箱注册的账号的密码，不需要登录，但是需要使用验证码。
 1. 请求参数说明
 - password: 新密码，需要加密，加密方式见[Authing官方文档](https://docs.authing.cn/authing/v/master/sdk/open-graphql#zhu-yi-shi-xiang-2)。
 - client: 用户池ID
@@ -317,7 +317,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
         unbindEmail: {
             name: '解绑邮箱',
             brief: `
-解绑邮箱。
+此接口用来解绑邮箱。
 > 注：如果没有配置其他登录方式（手机号、OAuth），将无法解绑邮箱。如需解绑，请先配置另一个登录方式。
 
 请求参数说明
@@ -330,7 +330,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
         userClients: {
             name: "用户池列表",
             brief: `
-获取用户池列表。支持分野
+此接口用来获取用户池列表。支持分页。
 1. 请求参数说明
     - 必填参数
         - userId: 用户ID, 只能填开发者自己的用户ID, 填其他人的会报权限错误。
@@ -349,7 +349,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
         client: {
             name: "用户池详情",
             brief: `
-用户池详情。
+此接口用来获取用户池详情。
 1. 请求参数
 - 必填参数
     - id: 用户池 ID
@@ -373,7 +373,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
         userClientTypes: {
             name: "获取用户池类型",
             brief: `
-获取用户池类型。
+此接口用来获取用户池类型。
 目前 Authing 支持 Web, IOS, Andoid, 小程序 四种用户池。
             `,
             type: '用户池管理'
@@ -392,7 +392,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
             type: '用户池管理',
             name: "是否具备用户池相关权限",
             brief: `
-是否具备用户池相关权限。
+此接口用来查看是否具备用户池相关权限。
 1. 请求参数说明
 - userId: 用户ID
 - clientId: 用户池ID
@@ -430,7 +430,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             type: '用户池管理',
             name: "删除用户池",
             brief: `
-删除用户池。支持批量操作。
+此接口用来删除用户池。支持批量操作。
 
 请求参数说明
 - ids: 用户池ID列表。
@@ -440,7 +440,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             type: '用户池管理',
             name: "修改用户池",
             brief: `
-修改用户池资料。
+此接口用来修改用户池资料。
 请求参数说明
 - client
     - _id: 用户池ID，必填。
@@ -451,7 +451,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
         bindOtherOAuth: {
             name: '绑定社会化登录',
             brief: `
-绑定第三方社会化账号, Authing 目前支持微信和 GitHub 两种。
+此接口用来绑定第三方社会化账号, Authing 目前支持微信和 GitHub 两种。
 请求参数说明
 - user: 用户 ID
 - client: 用户池 ID
@@ -464,7 +464,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
         unbindOtherOAuth: {
             name: '取消绑定社会化登录',
             brief: `
-解绑社会化登录。
+此接口用来解绑社会化登录。
 请求参数说明
 - user: 用户 ID
 - client: 用户池 ID
@@ -476,7 +476,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
         setInvitationState: {
             name: '开启/关闭注册白名单限制',
             brief: `
-开启/关闭注册白名单限制。
+此接口用来开启/关闭注册白名单限制。
 > 目前只支持手机号白名单，后续会慢慢支持更多。
 
 请求参数说明：
@@ -489,7 +489,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
         queryInvitationState: {
             name: '查看白名单机制开启状态',
             brief: `
-查看白名单机制开启状态。
+此接口用来查看白名单机制开启状态。
 请求参数说明：
 - client: 用户池ID
             `,
@@ -498,7 +498,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
         addToInvitation: {
             name: '增加手机号到白名单',
             brief: `
-增加手机号到白名单。
+此接口用来增加手机号到白名单。
 请求参数说明：
 - client: 用户池ID
 - phone: 手机号
@@ -508,7 +508,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
         removeFromInvitation: {
             name: '从白名单中删除手机号',
             brief: `
-从白名单中删除手机号。
+此接口用来从白名单中删除手机号。
 请求参数说明：
 - client: 用户池ID
 - phone: 手机号
@@ -518,7 +518,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
         queryInvitation: {
             name: '查看白名单中的手机号',
             brief: `
-查看白名单中的手机号列表。
+此接口用来查看白名单中的手机号列表。
 请求参数说明：
 - client: 用户池ID
             `,
@@ -526,9 +526,10 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
         },
 
         queryMFA: {
-            name: '查询 MFA 信息',
+            name: '查询 MFA 配置',
             brief: '通过用户 id 和用户池 id 参数来查询一个用户的 MFA 信息，此时 userId 和 userPoolId 两个参数必填。\n也可以通过 MFA 主体的 id 来查询 MFA 的信息，此时只需传入 _id 参数，userId 和 userPoolId 参数可以不传。',
             brief: `
+此接口用来查询 MFA 配置。
 多因素身份验证（MFA）是一种安全系统，是为了验证一项操作合法性而实行多种身份验证。例如银行的 U 盾，异地登录要求手机短信验证。开发者可以基于 Authing 的 MFA 功能进行定制化开发。
 前往 [Authing官网文档 - MFA](https://learn.authing.cn/authing/mfa/configure-mfa) 查看更多相关内容。 
 查询 MFA 信息有两种方式：通过 MFA 主体 id 或者用户 ID 加用户池 ID。
@@ -545,6 +546,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
         changeMFA: {
             name: '修改 MFA 信息',
             brief: `
+此接口用来修改 MFA 信息。
 和“查询  MFA 信息” 一样，修改也有两种方式：通过 MFA 主体 id 或者用户 ID 加用户池 ID。
 请求参数：
 - enabled: 布尔值，是否开启。
@@ -557,7 +559,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
             type: 'WebHook API',
             name: "添加 Webhook",
             brief: `
-添加 webhook。相关文档请查看 [Authing官方文档](https://learn.authing.cn/authing/advanced/use-webhook)
+此接口用来添加 Webhook。相关文档请查看 [Authing官方文档](https://learn.authing.cn/authing/advanced/use-webhook)
 1. Webhook 有什么用
 
 Webhooks 允许你对用户注册、登录等**事件**进行监听，从而对其做一些自定义处理。这能让Authing和你的业务更好地联动起来。
@@ -601,7 +603,7 @@ Authing 将会向你定义的 webhook 地址发送携带该名用户ID的请求�
             type: 'WebHook API',
             name: "获取用户池 WebHook 列表",
             brief: `
-查看配置的 WebHook 列表。
+此接口用来查看配置的 WebHook 列表。
 请求参数：
 - client: 必填。用户池ID。
             `
@@ -619,7 +621,7 @@ Authing 将会向你定义的 webhook 地址发送携带该名用户ID的请求�
             type: 'WebHook API',
             name: "获取 Webhook 日志列表",
             brief: `
-获取 webhook 日志列表。
+此接口用来获取 webhook 日志列表。
 1. 请求参数：
 - webhook: Webhook id
 
@@ -651,7 +653,7 @@ Authing 将会向你定义的 webhook 地址发送携带该名用户ID的请求�
             type: 'WebHook API',
             name: "获取 Webhook 日志详情",
             brief: `
-获取 Webhook 日志详情。
+此接口用来获取 Webhook 日志详情。
 1. 请求参数
 - id：日志ID。
 2. 返回数据示例
@@ -689,7 +691,7 @@ Authing 将会向你定义的 webhook 地址发送携带该名用户ID的请求�
             type: 'WebHook API',
             name: "获取 Webhook 配置项",
             brief: `
-获取 Webhook 配置项。此接口无需参数。
+此接口用来获取 Webhook 配置项。此接口无需参数。
 
 返回数据：
 \`\`\`
@@ -744,7 +746,7 @@ Authing 将会向你定义的 webhook 地址发送携带该名用户ID的请求�
             type: 'WebHook API',
             name: "修改 Webhook",
             brief: `
-修改 Webhook。
+此接口用来修改 Webhook。
 请求参数：
 - 必填项
     - id: webhook ID
@@ -761,7 +763,7 @@ Authing 将会向你定义的 webhook 地址发送携带该名用户ID的请求�
             type: 'WebHook API',
             name: "删除 Webhook",
             brief: `
-删除 Webhook。
+此接口用来删除 Webhook。
 请求参数：
 - 必填项
     - id: Webhook ID
@@ -809,7 +811,7 @@ Authing 将会向该 Webhook 配置的 url 发起 **POST** 请求。
             // 使用 LDAP 登录，登录后返回的 Token 需要在客户端维护
             name: '使用 LDAP 登录',
             brief: `
-使用 LDAP 登录，登录后返回的 Token 需要在客户端维护。
+此接口使用 LDAP 登录，登录后返回的 Token 需要在客户端维护。
 LDAP 是一个树型的用来存储用户和组织信息的数据库，常被用来做单点登录和组织架构管理。前往[Authing官方文档 - LDAP](https://learn.authing.cn/authing/advanced/ldap)了解更多。 
 
 1. 请求参数：
@@ -829,7 +831,7 @@ LDAP 是一个树型的用来存储用户和组织信息的数据库，常被用
         GetUserAuthorizedApps: {
             name: '查询用户授权过的 SSO 应用列表',
             brief: `
-查询用户授权过的 SSO 应用列表。此接口需要携带登录凭证 token。支持分页。
+此接口用来查询用户授权过的 SSO 应用列表。此接口需要携带登录凭证 token。支持分页。
 请求参数:
 - clientId: 用户池ID
 - userId: 用户ID
@@ -841,7 +843,7 @@ LDAP 是一个树型的用来存储用户和组织信息的数据库，常被用
         RevokeUserAuthorizedApp: {
             name: '撤回用户对 SSO 应用的授权',
             brief: `
-此接口用于撤回一个用户池内，某个用户对该用户池下的某个 SSO 应用的授权。撤回授权后，用户在 SSO 登录页面登录时，会再次显示确权页面。
+此接口用来撤回一个用户池内，某个用户对该用户池下的某个 SSO 应用的授权。撤回授权后，用户在 SSO 登录页面登录时，会再次显示确权页面。
 请求参数：
 - userId: 用户ID
 - userPoolId: 用户池ID
