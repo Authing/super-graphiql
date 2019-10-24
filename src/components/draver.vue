@@ -115,7 +115,7 @@
             <span>
               调用
               <b>用户鉴权</b> ->
-              <b>登陆</b> 接口会返回用户 Token。
+              <b>登录</b> 接口会返回用户 Token。
             </span>
             <li>如何发送 Token？</li>
             <span>
@@ -160,7 +160,7 @@
             <span>
               调用
               <b>用户鉴权</b> ->
-              <b>登陆</b> 接口会返回用户 Token。
+              <b>登录</b> 接口会返回用户 Token。
             </span>
             <li>如何发送 Token？</li>
             <span>
@@ -205,7 +205,7 @@
             <span>
               调用
               <b>用户鉴权</b> ->
-              <b>登陆</b> 接口会返回用户 Token。
+              <b>登录</b> 接口会返回用户 Token。
             </span>
             <li>如何发送 Token？</li>
             <span>
