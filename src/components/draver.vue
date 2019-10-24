@@ -39,7 +39,7 @@
             <span
               @click="showUsageModal('admin')"
               class="tokenUsageReminderText"
-            >此接口需要发送用户池管理员 Token, 发送方式点击这里查看</span>
+            >此接口需要发送用户池管理员 Token，<a href="#">发送方式请点击这里查看</a>。 </span>
           </template>
         </Alert>
 
@@ -49,7 +49,7 @@
             <span
               @click="showUsageModal('both')"
               class="tokenUsageReminderText"
-            >此接口需要发送用户池管理员 Token 或用户 Token, 了解二者不同以及发送方式点击这里查看</span>
+            >此接口需要发送用户池管理员 Token 或用户 Token，了解二者不同以及发送方式，<a href="#">请点击这里查看</a>。</span>
           </template>
         </Alert>
 
@@ -59,7 +59,7 @@
             <span
               @click="showUsageModal('user')"
               class="tokenUsageReminderText"
-            >此接口需要发送用户 Token, 发送方式点击这里查看</span>
+            >此接口需要发送用户 Token，<a href="#">发送方式请点击这里查看</a>。</span>
           </template>
         </Alert>
 
@@ -69,7 +69,7 @@
             <span
               @click="showUsageModal('mfa')"
               class="tokenUsageReminderText"
-            >MFA 多因素认证接口需要发送 Token, 发送方式点击这里查看</span>
+            >MFA 多因素认证接口需要发送 Token，<a href="#">发送方式请点击这里查看</a>。</span>
           </template>
         </Alert>
 
