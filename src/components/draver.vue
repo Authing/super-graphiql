@@ -33,6 +33,203 @@
           </span>
         </div>
 
+        <Alert v-if="apiScenes==='admin'">
+          提示
+          <template slot="desc">
+            <span
+              @click="showUsageModal('admin')"
+              class="tokenUsageReminderText"
+            >此接口需要发送用户池管理员 Token, 发送方式点击这里查看</span>
+          </template>
+        </Alert>
+
+        <Alert v-if="apiScenes==='both'">
+          提示
+          <template slot="desc">
+            <span
+              @click="showUsageModal('both')"
+              class="tokenUsageReminderText"
+            >此接口需要发送用户池管理员 Token 或用户 Token, 发送方式点击这里查看</span>
+          </template>
+        </Alert>
+
+        <Alert v-if="apiScenes==='user'">
+          提示
+          <template slot="desc">
+            <span
+              @click="showUsageModal('user')"
+              class="tokenUsageReminderText"
+            >此接口需要发送用户 Token, 发送方式点击这里查看</span>
+          </template>
+        </Alert>
+
+        <Alert v-if="apiScenes==='mfa'">
+          提示
+          <template slot="desc">
+            <span
+              @click="showUsageModal('mfa')"
+              class="tokenUsageReminderText"
+            >MFA 多因素认证接口需要发送 Token, 发送方式点击这里查看</span>
+          </template>
+        </Alert>
+
+        <Modal
+          v-model="showAdminTokenUsage"
+          title="如何使用管理员 Token?"
+          @on-ok="hideUsageModal('admin')"
+        >
+          <ol>
+            <li>如何获取管理员 Token?</li>
+            <span>
+              调用
+              <b>用户池鉴权</b> ->
+              <b>初始化</b> 接口会返回管理员 Token。(即
+              <code>accessToken</code> )
+            </span>
+            <li>如何发送 Token？</li>
+            <span>
+              添加到 HTTP 请求的
+              <a
+                href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Authorization"
+              >Authorization Header</a> 中，
+              并在前面加上 "
+              <code>Bearer</code>"（别忘了空格），比如你获取到的
+              <code>accessToken</code> 为
+              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>,
+              那么最终的 Authorization 请求头就是
+              <code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>
+            </span>
+            <li>如何在界面中模拟发送 Token</li>
+            <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
+            <img
+              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-085331.png"
+              style="width: 100%;"
+              alt
+            />
+          </ol>
+        </Modal>
+
+        <Modal v-model="showUserTokenUsage" title="如何使用用户 Token?" @on-ok="hideUsageModal('user')">
+          <ol>
+            <li>如何获取用户 Token?</li>
+            <span>
+              调用
+              <b>用户鉴权</b> ->
+              <b>登陆</b> 接口会返回用户 Token。
+            </span>
+            <li>如何发送 Token？</li>
+            <span>
+              添加到 HTTP 请求的
+              <a
+                href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Authorization"
+              >Authorization Header</a> 中，
+              并在前面加上 "
+              <code>Bearer</code>"（别忘了空格），比如你获取到的
+              <code>accessToken</code> 为
+              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>,
+              那么最终的 Authorization 请求头就是
+              <code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>
+            </span>
+            <li>如何在界面中模拟发送 Token</li>
+            <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
+            <img
+              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-085331.png"
+              style="width: 100%;"
+              alt
+            />
+          </ol>
+        </Modal>
+
+        <Modal
+          v-model="showMFATokenUsage"
+          title="如何发送 MFA  多因素认证所需的 Token?"
+          @on-ok="hideUsageModal('mfa')"
+        >
+          <ol>
+            <li>修改 MFA 和 查询 MFA使用的 Token 有所区别</li>
+            <span>修改 MFA 必须使用终端用户的 Token, 查询 MFA 可以使用终端用户的 Token 和管理员的 Token。</span>
+            <span>终端用户的 Token 只能查询自己的 MFA, 而管理员的 Token 可以用户池所有用户的 MFA。</span>
+            <li>如何获取管理员 Token?</li>
+            <span>
+              调用
+              <b>用户池鉴权</b> ->
+              <b>初始化</b> 接口会返回管理员 Token。(即
+              <code>accessToken</code> )
+            </span>
+            <li>如何获取用户 Token?</li>
+            <span>
+              调用
+              <b>用户鉴权</b> ->
+              <b>登陆</b> 接口会返回用户 Token。
+            </span>
+            <li>如何发送 Token？</li>
+            <span>
+              添加到 HTTP 请求的
+              <a
+                href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Authorization"
+              >Authorization Header</a> 中，
+              并在前面加上 "
+              <code>Bearer</code>"（别忘了空格），比如你获取到的
+              <code>accessToken</code> 为
+              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>,
+              那么最终的 Authorization 请求头就是
+              <code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>
+            </span>
+            <li>如何在界面中模拟发送 Token</li>
+            <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
+            <img
+              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-085331.png"
+              style="width: 100%;"
+              alt
+            />
+          </ol>
+        </Modal>
+
+        <Modal
+          v-model="showBothTokenUsage"
+          title="如何判断你需要那种 Token? 如何发送 Token？"
+          @on-ok="hideUsageModal('both')"
+        >
+          <ol>
+            <li>管理员Token 和用户 Token 适用的目标用户不同。</li>
+            <span>用户池管理员 Token 可以操作该用户池中所有的用户。</span>
+            <span>终端用户的 Token 只能操作该用户自己。</span>
+            <li>如何获取管理员 Token?</li>
+            <span>
+              调用
+              <b>用户池鉴权</b> ->
+              <b>初始化</b> 接口会返回管理员 Token。(即
+              <code>accessToken</code> )
+            </span>
+            <li>如何获取用户 Token?</li>
+            <span>
+              调用
+              <b>用户鉴权</b> ->
+              <b>登陆</b> 接口会返回用户 Token。
+            </span>
+            <li>如何发送 Token？</li>
+            <span>
+              添加到 HTTP 请求的
+              <a
+                href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Authorization"
+              >Authorization Header</a> 中，
+              并在前面加上 "
+              <code>Bearer</code>"（别忘了空格），比如你获取到的
+              <code>accessToken</code> 为
+              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>,
+              那么最终的 Authorization 请求头就是
+              <code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>
+            </span>
+            <li>如何在界面中模拟发送 Token</li>
+            <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
+            <img
+              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-085331.png"
+              style="width: 100%;"
+              alt
+            />
+          </ol>
+        </Modal>
+
         <VueMarkdown :source="doc" class="markdownDocContainer"></VueMarkdown>
 
         <Divider />
@@ -183,12 +380,15 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import VueMarkdown from "vue-markdown";
+import { Alert, Modal } from "view-design";
 
 export default {
   name: "draver",
 
   components: {
-    VueMarkdown
+    VueMarkdown,
+    Alert,
+    Modal
   },
 
   data() {
@@ -203,7 +403,12 @@ export default {
         display: "block",
         marginBottom: "16px"
       },
-      codevalue: "hello"
+      codevalue: "hello",
+      showAdminTokenUsage: false,
+      showUserTokenUsage: false,
+      showMFATokenUsage: false,
+      showBothTokenUsage: false,
+      apiScenes: undefined
     };
   },
   computed: {
@@ -245,6 +450,31 @@ export default {
       "lastHistory",
       "nextHistory"
     ]),
+
+    showUsageModal(type) {
+      if (type === "admin") {
+        this.showAdminTokenUsage = true;
+      } else if (type === "user") {
+        this.showUserTokenUsage = true;
+      } else if (type === "mfa") {
+        this.showMFATokenUsage = true;
+      } else if (type == "both") {
+        this.showBothTokenUsage = true;
+      }
+    },
+
+    hideUsageModal(type) {
+      if (type === "admin") {
+        this.showAdminTokenUsage = false;
+      } else if (type === "user") {
+        this.showUserTokenUsage = false;
+      } else if (type === "mfa") {
+        this.showMFATokenUsage = false;
+      } else if (type == "both") {
+        this.showBothTokenUsage = false;
+      }
+    },
+
     hideDrawer() {
       this.changeDrawerShow({ show: false });
       this.modalShow = false;
@@ -252,8 +482,15 @@ export default {
       this.fields = [];
       this.clearHistoryList();
     },
+
+    updateAPIScenes(apiName) {
+      const apiDoc = this.apiDocs[apiName];
+      this.apiScenes = apiDoc.tokenType;
+    },
+
     dealWithApiInfo() {
       let api = this.apiInfo;
+      this.updateAPIScenes(api.name);
       try {
         if (
           api.args &&
@@ -397,9 +634,8 @@ export default {
       this.lastHistory();
     },
     makeGQLCode() {
-      
-      const apiName = this.apiInfo.name
-      const query = this.queries[apiName]
+      const apiName = this.apiInfo.name;
+      const query = this.queries[apiName];
 
       function copyText(text, callback) {
         // 网上找的，为了不多加库真的很拼
@@ -529,6 +765,19 @@ span.text {
   margin-left: 20px;
 }
 
+.ivu-modal-body ol {
+  margin-left: 11px;
+}
+
+.ivu-modal-body ol li {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.ivu-modal-body image {
+  width: 100%;
+}
+
 .markdownDocContainer ul {
   margin-left: 13.5px;
 }
@@ -544,5 +793,9 @@ span.text {
 blockquote {
   border-left: 4px solid #ccc;
   padding-left: 11px;
+}
+
+.tokenUsageReminderText:hover {
+  cursor: pointer;
 }
 </style>

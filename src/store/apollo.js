@@ -39,7 +39,6 @@ const state = {
         },
         register: {
             name: '注册',
-            brief: '用户注册。\n此接口不需要发送任何 Token, 密码采用非对称加密方式。参见 https://docs.authing.cn/authing/sdk/open-graphql#zhu-ce',
             brief: `
 1. 注册分为多种方式
 - 使用用户名注册（username）
@@ -204,8 +203,10 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
 - exp: 签名过期时间戳（默认为签名时间过后15天）
 
             `,
-            type: '用户鉴权'
+            type: '用户鉴权',
+            tokenType: "both"
         },
+
         user: {
             name: '读取用户资料',
             brief: `
@@ -225,7 +226,9 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
 - userLocation: 用户地址
 - userLoginHistory: 用户历史登录记录。
             `,
-            type: '用户管理'
+            type: '用户管理',
+            tokenType: "both"
+
         },
         users: {
             name: '获取用户列表',
@@ -238,8 +241,10 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
 - populate：布尔值。默认为 false, 如果为 true,将会返回用户的扩展字段：group、clientType、userLocation 、userLoginHistory、systemApplicationType（详情见”读取用户资料”接口）。
 
             `,
-            type: '用户管理'
+            type: '用户管理',
+            tokenType: "admin"
         },
+
         checkLoginStatus: {
             name: '检查用户登录状态',
             brief: `
@@ -250,18 +255,22 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
             `,
             type: '用户管理'
         },
+
+
         removeUsers: {
-            name: '删除用户',
+            name: '批量删除用户',
             brief: `
-此接口用来删除用户。
+此接口用来批量删除用户。
 只有用户池（或协作用户池）管理员才能执行此操作。
 参数说明
 - ids: 列表类型。
 - registerInClient: 用户池 ID
 - operator: 操作人ID, Authing 会记录，便于之后审计。 
             `,
-            type: '用户管理'
+            type: '用户管理',
+            tokenType: "admin"
         },
+
         updateUser: {
             name: '更新用户资料',
             brief: `
@@ -274,8 +283,10 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
     - 其他字段均可选，**只需要填你想要修改的字段**。
 
             `,
-            type: '用户管理'
+            type: '用户管理',
+            tokenType: "both"
         },
+
         sendResetPasswordEmail: {
             name: '发送重置密码邮件',
             brief: `
@@ -283,14 +294,16 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
 Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** -> **邮件模版** 查看或修改邮件模板。
 详细内容请见 [Authing官方文档](https://docs.authing.cn/authing/messages/email)。
             `,
-            type: '用户管理'
+            type: '用户管理',
+            tokenType: "both"
         },
+
         verifyResetPasswordVerifyCode: {
             name: '验证重置密码验证码',
             brief: `
 此接口用来发送“重置密码”邮件。   
 `,
-            type: '用户管理'
+            type: '用户管理',
         },
         sendVerifyEmail: {
             name: '发送验证邮件',
@@ -324,7 +337,8 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
 - user: 用户ID
 - client: 用户池ID
 `,
-            type: '用户管理'
+            type: '用户管理',
+            tokenType: "both"
         },
 
         userClients: {
@@ -343,7 +357,8 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
 - totalCount: 用户池总数
 - list：用户池列表，列表元素字段含义请见 用户池详情 接口。
             `,
-            type: '用户池管理'
+            type: '用户池管理',
+            tokenType: "admin"
         },
 
         client: {
@@ -367,7 +382,8 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
 - jwtExpired: JWT Token 过期时间
 - frequentRegisterCheck: 注册频率限制。
             `,
-            type: '用户池管理'
+            type: '用户池管理',
+            tokenType: "admin"
         },
 
         userClientTypes: {
@@ -376,7 +392,8 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
 此接口用来获取用户池类型。
 目前 Authing 支持 Web, IOS, Andoid, 小程序 四种用户池。
             `,
-            type: '用户池管理'
+            type: '用户池管理',
+            tokenType: "admin"
         },
 
         // userClientList: {
@@ -385,7 +402,8 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
 
         queryPermissionList: {
             name: "用户池权限列表",
-            type: "用户池管理"
+            type: "用户池管理",
+            tokenType: "admin"
         },
 
         isClientBelongToUser: {
@@ -403,7 +421,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
 Authing 目前支持以下权限点：你可以向协作者开放其所需要的权限。
 ![](http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-23-123814.png)
 
-            `
+            `,
         },
         // queryClient: {
         //     type: '用户池管理'
@@ -428,13 +446,14 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
         // },
         removeUserClients: {
             type: '用户池管理',
-            name: "删除用户池",
+            name: "批量删除用户池",
             brief: `
 此接口用来删除用户池，支持批量操作。
 
 请求参数说明
 - ids: 用户池 ID 列表。
-            `
+            `,
+            tokenType: "admin"
         },
         updateUserClient: {
             type: '用户池管理',
@@ -445,7 +464,8 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
 - client
     - _id: 用户池 ID，必填。
     - 其他字段均可选，只需要填你想要修改的字段。
-            `
+            `,
+            tokenType: "admin"
         },
 
         bindOtherOAuth: {
@@ -459,7 +479,8 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
 - unionid: 第三方社会化账号在此平台的 unionid
 - userInfo: 第三方社会化账号的资料,可以是任意字符串。
 `,
-            type: '社会化登录'
+            type: '社会化登录',
+            tokenType: "both"
         },
         unbindOtherOAuth: {
             name: '取消绑定社会化登录',
@@ -470,7 +491,8 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
 - client: 用户池 ID
 - type: 第三方社会化账号平台，选项为 "github" 和 "wechat"。
             `,
-            type: '社会化登录'
+            type: '社会化登录',
+            tokenType: "both"
         },
 
         setInvitationState: {
@@ -484,7 +506,8 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
 - client: 用户池 ID。
 - enablePhone: 布尔值，是否开启手机号白名单机制。
 `,
-            type: '注册白名单'
+            type: '注册白名单',
+            tokenType: "admin"
         },
         queryInvitationState: {
             name: '查看白名单机制开启状态',
@@ -503,7 +526,8 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
 - client: 用户池 ID
 - phone: 手机号
             `,
-            type: '注册白名单'
+            type: '注册白名单',
+            tokenType: "admin"
         },
         removeFromInvitation: {
             name: '从白名单中删除手机号',
@@ -513,7 +537,8 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
 - client: 用户池 ID
 - phone: 手机号
             `,
-            type: '注册白名单'
+            type: '注册白名单',
+            tokenType: "admin"
         },
         queryInvitation: {
             name: '查看白名单中的手机号',
@@ -522,7 +547,8 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
 请求参数说明：
 - client: 用户池 ID
             `,
-            type: '注册白名单'
+            type: '注册白名单',
+            tokenType: "admin"
         },
 
         queryMFA: {
@@ -540,7 +566,8 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
     - userPoolId: 用户池ID
 - enabled: 是否开启
             `,
-            type: 'MFA 多因素认证'
+            type: 'MFA 多因素认证',
+            tokenType: "mfa"
         },
         changeMFA: {
             name: '修改 MFA 信息',
@@ -551,7 +578,8 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
 - enabled: 布尔值，是否开启。
 - refreshKey: 布尔值，是否刷新 MFA 的 shareKey。
             `,
-            type: 'MFA 多因素认证'
+            type: 'MFA 多因素认证',
+            tokenType: "mfa"
         },
 
         addClientWebhook: {
@@ -595,7 +623,8 @@ Authing 将会向你定义的 Webhook 地址发送携带该名用户ID的请求�
     - enable: 是否启用。
 - 可选参数
     - secret: 请求秘钥。如果设置, Authing将会在向 Webhook 回调地址发起请求时，带上\`X-Authing-Token\` 的请求头。开发者可以对此秘钥进行验证，用来防止第三方的恶意请求。
-`
+`,
+            tokenType: "admin"
         },
 
         getAllWebhooks: {
@@ -605,7 +634,8 @@ Authing 将会向你定义的 Webhook 地址发送携带该名用户ID的请求�
 此接口用来查看配置的 WebHook 列表。
 请求参数：
 - client: 必填。用户池 ID。
-            `
+            `,
+            tokenType: "admin"
         },
 
         //         getWebhookDetail: {
@@ -645,7 +675,8 @@ Authing 将会向你定义的 Webhook 地址发送携带该名用户ID的请求�
     }
  }
 \`\`\`
-            `
+            `,
+            tokenType: "admin"
         },
 
         getWebhookLogDetail: {
@@ -683,7 +714,8 @@ Authing 将会向你定义的 Webhook 地址发送携带该名用户ID的请求�
 }
 
 \`\`\`
-            `
+            `,
+            tokenType: "admin"
         },
 
         getWebhookSettingOptions: {
@@ -738,7 +770,8 @@ Authing 将会向你定义的 Webhook 地址发送携带该名用户ID的请求�
     }
   }
 \`\`\`
-            `
+            `,
+            tokenType: "admin"
         },
 
         updateClientWebhook: {
@@ -755,7 +788,8 @@ Authing 将会向你定义的 Webhook 地址发送携带该名用户ID的请求�
     - enable: 是否启用。
 - 可选参数
     - secret: 请求秘钥。如果设置, Authing将会在向 Webhook 回调地址发起请求时，带上\`X-Authing-Token\` 的请求头。开发者可以对此秘钥进行验证，用来防止第三方的恶意请求。
-`
+`,
+            tokenType: "admin"
         },
 
         deleteClientWebhook: {
@@ -766,7 +800,8 @@ Authing 将会向你定义的 Webhook 地址发送携带该名用户ID的请求�
 请求参数：
 - 必填项
     - id: Webhook ID
-            `
+            `,
+            tokenType: "admin"
         },
 
         SendWebhookTest: {
@@ -783,7 +818,8 @@ Authing 将会向该 Webhook 配置的 url 发起 **POST** 请求。
     "description": "A test from Authing Webhook"
 }
 \`\`\`
-            `
+            `,
+            tokenType: "admin"
         },
         // ClientWebhook: {
         //     type: 'WebHook API'
@@ -837,7 +873,8 @@ LDAP 是一个树型的用来存储用户和组织信息的数据库，常被用
 - page
 - count
             `,
-            type: 'OAuth API'
+            type: 'OAuth API',
+            tokenType: "both"
         },
         RevokeUserAuthorizedApp: {
             name: '撤回用户对 SSO 应用的授权',
@@ -848,7 +885,8 @@ LDAP 是一个树型的用来存储用户和组织信息的数据库，常被用
 - userPoolId: 用户池I D
 - appId: SSO 应用 ID
 `,
-            type: 'OAuth API'
+            type: 'OAuth API',
+            tokenType: "admin"
         },
 
     },

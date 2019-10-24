@@ -22,6 +22,7 @@
     "iview": "^3.5.0",
     "jsencrypt": "^3.0.0-rc.1",
     "pingpp-js": "^2.2.14",
+    "view-design": "^4.0.2",
     "vue": "^2.5.2",
     "vue-apollo": "^2.1.0-rc.4",
     "vue-markdown": "^2.2.4",

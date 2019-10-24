@@ -112,6 +112,7 @@
               theme="vs"
               :options="monacoOptions"
               v-model="headers"
+              language="json"
               :style="fullHeight > 0 ? 'margin-top: 2px;height:' + (fullHeight - 62 - 60) / 2 + 'px;' : ''"
             />
             <!-- <Input
