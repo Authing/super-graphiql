@@ -514,11 +514,28 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
         queryMFA: {
             name: '查询 MFA 信息',
             brief: '通过用户 id 和用户池 id 参数来查询一个用户的 MFA 信息，此时 userId 和 userPoolId 两个参数必填。\n也可以通过 MFA 主体的 id 来查询 MFA 的信息，此时只需传入 _id 参数，userId 和 userPoolId 参数可以不传。',
+            brief: `
+多因素身份验证（MFA）是一种安全系统，是为了验证一项操作合法性而实行多种身份验证。例如银行的 U 盾，异地登录要求手机短信验证。开发者可以基于 Authing 的 MFA 功能进行定制化开发。
+前往 [Authing官网文档 - MFA](https://learn.authing.cn/authing/mfa/configure-mfa) 查看更多相关内容。 
+查询 MFA 信息有两种方式：通过 MFA 主体 id 或者用户 ID 加用户池 ID。
+请求参数：
+- 通过 MFA 主体 ID 查询
+    - _id: MFA 主体 ID
+- 通过用户 ID 加用户池 ID 查询
+    - userId: 用户ID
+    - userPoolId: 用户池ID
+- enabled: 是否开启
+            `, 
             type: 'MFA 多因素认证'
         },
         changeMFA: {
             name: '修改 MFA 信息',
-            brief: '通过用户 id 和用户池 id 参数来查询一个用户的 MFA 信息，此时 userId 和 userPoolId 两个参数必填。\n也可以通过 MFA 主体的 id 来查询 MFA 的信息，此时只需传入 _id 参数，userId 和 userPoolId 参数可以不传。',
+            brief: `
+和“查询  MFA 信息” 一样，修改也有两种方式：通过 MFA 主体 id 或者用户 ID 加用户池 ID。
+请求参数：
+- enabled: 布尔值，是否开启。
+- refreshKey: 布尔值，是否刷新 MFA 的 shareKey。
+            `,
             type: 'MFA 多因素认证'
         },
 
