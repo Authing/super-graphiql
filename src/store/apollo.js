@@ -89,27 +89,27 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         login: {
             name: '登录',
             brief: `
-登陆接口。
-1. 登陆场景：
-- 用户名登陆
-- 邮箱登陆
-- 手机号作为用户名登陆
+登录接口。
+1. 登录场景：
+- 用户名登录
+- 邮箱登录
+- 手机号作为用户名登录
 - 手机号验证码
 
 2. 请求参数：
 - 必填参数
     - registerInClient: 用户池ID
 - 可选参数
-    - 用户名登陆
+    - 用户名登录
         - username
         - password
-    - 邮箱登陆
+    - 邮箱登录
         - email
         - password
-    - 手机号作为用户名登陆
+    - 手机号作为用户名登录
         - phone
         - password
-    - 手机号验证码登陆
+    - 手机号验证码登录
         - phone
         - phoneCode
 
@@ -179,7 +179,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
 刷新指定用户的 JWT token。
 1. 此 JWT token 有什么用？
 
-每个用户都有唯一对应的 JWT token, 作为登陆凭证。
+每个用户都有唯一对应的 JWT token, 作为登录凭证。
 
 2. 参数说明
 - client: 用户池 ID
@@ -209,21 +209,21 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
         user: {
             name: '读取用户资料',
             brief: `
-读取用户资料。同时支持用户 ID 和用户登陆凭证读取。
+读取用户资料。同时支持用户 ID 和用户登录凭证读取。
 1. 部分请求参数说明
 - 可选参数：
     - registerInClient: 用户池 ID。
     - id: 用户id。
-    - token: 该用户（**非开发者**）的登陆凭证，如果指定，将会忽略 id 字段。
+    - token: 该用户（**非开发者**）的登录凭证，如果指定，将会忽略 id 字段。
     - auth: 布尔值
-    - userLoginHistoryPage: 用户登陆记录分页数。
-    - userLoginHistoryCount: 用户登陆记录每页数目。
+    - userLoginHistoryPage: 用户登录记录分页数。
+    - userLoginHistoryCount: 用户登录记录每页数目。
 
 2. 返回结果部分字段说明
 - group: 所在群组
 - clientType: 用户池类型
 - userLocation: 用户地址
-- userLoginHistory: 用户历史登陆记录。
+- userLoginHistory: 用户历史登录记录。
             `,
             type: '用户管理'
         },
@@ -246,7 +246,7 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
 检查用户登录状态。
 请求参数说明
 - 可选项
-    - token: 指定用户的登陆凭证，**不填将使用当前访问者的 token**。
+    - token: 指定用户的登录凭证，**不填将使用当前访问者的 token**。
             `,
             type: '用户管理'
         },
@@ -302,7 +302,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
         changePassword: {
             name: '修改密码',
             brief: `
-修改密码。只支持通过邮箱注册的账号的密码，不需要登陆，但是需要使用验证码。
+修改密码。只支持通过邮箱注册的账号的密码，不需要登录，但是需要使用验证码。
 1. 请求参数说明
 - password: 新密码，需要加密，加密方式见[Authing官方文档](https://docs.authing.cn/authing/v/master/sdk/open-graphql#zhu-yi-shi-xiang-2)。
 - client: 用户池ID
@@ -318,7 +318,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
             name: '解绑邮箱',
             brief: `
 解绑邮箱。
-> 注：如果没有配置其他登陆方式（手机号、OAuth），将无法解绑邮箱。如需解绑，请先配置另一个登陆方式。
+> 注：如果没有配置其他登录方式（手机号、OAuth），将无法解绑邮箱。如需解绑，请先配置另一个登录方式。
 
 请求参数说明
 - user: 用户ID
@@ -361,7 +361,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
 - emailVerifiedDefault：布尔值， 注册时邮箱需不需要验证。true无需验证，false表示需要验证。
 - registerDisabled：布尔值，true为应用池已关闭注册，false为未关闭注册。
 - showWXMPQRCode：布尔值，是否显示微信小程序扫码登录。
-- useMiniLogin：是否使用微信小程序“小登陆”。
+- useMiniLogin：是否使用微信小程序“小登录”。
 - allowedOrigins：安全域（Allowed Origins） 是允许从 JavaScript 向 Authing API 发出请求的 URL（通常与 CORS 一起使用）。 默认情况下，系统会允许你使用所有网址。 如果需要，此字段允许你输入其他来源。 你可以通过逐行分隔多个有效 URL，并在子域级别使用通配符（例如：https://*.sample.com）。 验证这些 URL 时不考虑查询字符串和哈希信息，如果带上了查询字符串和哈希信息系统会自动忽略整个域名。
 - secret：用户池密钥，通过 用户池 -> 基础配置 可以查看。
 - jwtExpired：jwt 过期时间
@@ -572,7 +572,7 @@ Authing 内置了丰富的事件，目前包含注册、登录、修改密码、
 
 - register: 注册
 - change-user-info: 修改用户信息
-- login: 登陆
+- login: 登录
 - change-password: 修改密码
 - email-verified: 用户邮箱被验证
 
@@ -822,14 +822,14 @@ LDAP 是一个树型的用来存储用户和组织信息的数据库，常被用
 
 2. 返回数据
 
-登陆成功之后会返回登陆用户的详细数据，其中包含 \`token\`(登陆凭证)，客户端需要妥善保存。
+登录成功之后会返回登录用户的详细数据，其中包含 \`token\`(登录凭证)，客户端需要妥善保存。
 `,
             type: 'OAuth API'
         },
         GetUserAuthorizedApps: {
             name: '查询用户授权过的 SSO 应用列表',
             brief: `
-查询用户授权过的 SSO 应用列表。此接口需要携带登陆凭证 token。支持分页。
+查询用户授权过的 SSO 应用列表。此接口需要携带登录凭证 token。支持分页。
 请求参数:
 - clientId: 用户池ID
 - userId: 用户ID
