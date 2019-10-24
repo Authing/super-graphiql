@@ -49,7 +49,7 @@
             <span
               @click="showUsageModal('both')"
               class="tokenUsageReminderText"
-            >此接口需要发送用户池管理员 Token 或用户 Token, 发送方式点击这里查看</span>
+            >此接口需要发送用户池管理员 Token 或用户 Token, 了解二者不同以及发送方式点击这里查看</span>
           </template>
         </Alert>
 
@@ -102,7 +102,7 @@
             <li>如何在界面中模拟发送 Token</li>
             <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
             <img
-              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-085331.png"
+              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
               style="width: 100%;"
               alt
             />
@@ -133,7 +133,7 @@
             <li>如何在界面中模拟发送 Token</li>
             <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
             <img
-              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-085331.png"
+              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
               style="width: 100%;"
               alt
             />
@@ -178,7 +178,7 @@
             <li>如何在界面中模拟发送 Token</li>
             <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
             <img
-              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-085331.png"
+              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
               style="width: 100%;"
               alt
             />
@@ -223,7 +223,7 @@
             <li>如何在界面中模拟发送 Token</li>
             <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
             <img
-              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-085331.png"
+              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
               style="width: 100%;"
               alt
             />
