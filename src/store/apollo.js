@@ -403,6 +403,12 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
         queryPermissionList: {
             name: "用户池权限列表",
             type: "用户池管理",
+            brief: `
+此接口用来查询用户池权限列表。
+
+Authing 目前支持以下权限点：你可以向协作者开放其所需要的权限。
+![](http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102003.png)
+            `,
             tokenType: "admin"
         },
 
@@ -419,7 +425,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
 2. 用户池可以配置哪些权限点？
 
 Authing 目前支持以下权限点：你可以向协作者开放其所需要的权限。
-![](http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-23-123814.png)
+![](http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102003.png)
 
             `,
         },
