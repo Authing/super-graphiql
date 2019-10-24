@@ -93,8 +93,23 @@ Authing 提供给开发者“一键关闭注册”选项，可在后台 **基础
 - 邮箱登陆
 - 手机号作为用户名登陆
 - 手机号验证码
-- 社会化登陆
 
+2. 请求参数：
+- 必填参数
+    - registerInClient: 用户池ID
+- 可选参数
+    - 用户名登陆
+        - username
+        - password
+    - 邮箱登陆
+        - email
+        - password
+    - 手机号作为用户名登陆
+        - phone
+        - password
+    - 手机号验证码登陆
+        - phone
+        - phoneCode
 
             `,
             type: '用户鉴权'
