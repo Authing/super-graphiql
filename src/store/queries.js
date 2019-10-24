@@ -271,7 +271,7 @@ query users($registerInClient: String, $page: Int, $count: Int, $populate: Boole
     `,
 
     checkLoginStatus: `
-query checkLoginStatus($token: String) {
+query checkLoginStatus($token: String!) {
     checkLoginStatus(token: $token) {
         message
         code
