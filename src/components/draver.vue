@@ -213,7 +213,8 @@ export default {
       "dic",
       "nowHistory",
       "historyList",
-      "apiDocs"
+      "apiDocs",
+      "queries"
     ]),
 
     doc() {
@@ -396,200 +397,10 @@ export default {
       this.lastHistory();
     },
     makeGQLCode() {
-      let str = "";
-      let that = this;
-      function getArgs(list, showType) {
-        if (!list) {
-          return false;
-        }
-        let tmp = list.args || list.inputFields || list.fields || [];
-        let arr = [];
-        for (let i = 0; i < tmp.length; i++) {
-          try {
-            let tp = tmp[i]["type"]["ofType"]
-              ? tmp[i]["type"]["ofType"]["name"]
-              : tmp[i]["type"]["name"];
-            //alert(JSON.stringify(tmp[i]))
-            //alert(tp)
-            if (tmp[i] && tmp[i]["type"]) {
-              if (getArgs(that.dic[tp])) {
-                arr.push(getArgs(that.dic[tp]));
-              } else {
-                if (tmp[i]["type"]["kind"] == "NON_NULL") {
-                  arr.push("$" + tmp[i]["name"] + ": " + tp + "!");
-                } else {
-                  arr.push("$" + tmp[i]["name"] + ": " + tp);
-                }
-              }
-            }
-          } catch (err) {
-            alert(err);
-          }
-        }
-        return arr.join(", ");
-      }
+      
+      const apiName = this.apiInfo.name
+      const query = this.queries[apiName]
 
-      function getFirstArgsInObject(list) {
-        let tmp = list.args || list.inputFields || list.fields || [];
-        let arr = [];
-        for (let i = 0; i < tmp.length; i++) {
-          let tp = tmp[i]["type"]["ofType"]
-            ? tmp[i]["type"]["ofType"]["name"]
-            : tmp[i]["type"]["name"];
-          // if (
-          //   tp !== "String" &&
-          //   tp !== "Boolean" &&
-          //   tp !== "Int" &&
-          //   tp !== "Float" &&
-          //   that.dic[tp]
-          // ) {
-          //   tp = "{" + getArgs(that.dic[tp]) + "}";
-          //   arr.push(tmp[i]["name"] + ": " + tp);
-          // } else {
-          arr.push(tmp[i]["name"] + ": $" + tmp[i]["name"]);
-          //}
-        }
-        return arr;
-      }
-
-      function getSecondArgs(list, showType) {
-        let tmp = list.args || list.inputFields || list.fields || [];
-        let arr = [];
-        for (let i = 0; i < tmp.length; i++) {
-          let tp = tmp[i]["type"]["ofType"]
-            ? tmp[i]["type"]["ofType"]["name"]
-            : tmp[i]["type"]["name"];
-          if (
-            tp !== "String" &&
-            tp !== "Boolean" &&
-            tp !== "Int" &&
-            tp !== "Float" &&
-            that.dic[tp]
-          ) {
-            tp = "{" + getArgs(that.dic[tp]) + "}";
-            arr.push(tmp[i]["name"] + ": " + tp);
-          } else {
-            arr.push(tmp[i]["name"] + ": $" + tmp[i]["name"]);
-          }
-        }
-        return arr.join(", ");
-      }
-
-      function giveMeSpace(number) {
-        let space = "";
-        while (space.length < number) {
-          space = space + "  ";
-        }
-        return space;
-      }
-
-      function renderFields(info, level) {
-        let lev = level; //把层级给存起来
-        let fields = [];
-        let tmpstr = "";
-        if (!info) {
-          return "";
-        }
-        try {
-          if (
-            typeof info.fields == "object" &&
-            info.fields.length &&
-            info.fields.length > 0
-          ) {
-            fields = info.fields;
-          } else if (
-            typeof info.inputFields == "object" &&
-            info.inputFields.length &&
-            info.inputFields.length > 0
-          ) {
-            fields = info.inputFields;
-          }
-        } finally {
-          if (fields.length > 0) {
-            for (let i = 0; i < fields.length; i++) {
-              if (
-                (fields[i]["type"] &&
-                  fields[i]["type"]["name"] &&
-                  that.dic[fields[i]["type"]["name"]]) ||
-                (fields[i]["type"] &&
-                  fields[i]["type"]["ofType"] &&
-                  that.dic[fields[i]["type"]["ofType"]["name"]])
-              ) {
-                let typeName = fields[i]["type"]["name"];
-                if (
-                  fields[i]["type"] &&
-                  fields[i]["type"]["ofType"] &&
-                  fields[i]["type"]["ofType"]["name"] &&
-                  that.dic[fields[i]["type"]["ofType"]["name"]]
-                ) {
-                  //alert(fields[i]['type']['ofType']['name'])
-                  typeName = fields[i]["type"]["ofType"]["name"];
-                }
-                let res = renderFields(that.dic[typeName], lev + 1);
-                //alert(JSON.stringify(res))
-                if (res !== "") {
-                  res =
-                    giveMeSpace(lev) +
-                    fields[i]["name"] +
-                    " {\n" +
-                    res +
-                    giveMeSpace(lev) +
-                    "}\n";
-                } else {
-                  res = giveMeSpace(lev) + fields[i]["name"] + "\n";
-                }
-                tmpstr = tmpstr + res;
-              } else {
-                tmpstr = tmpstr + giveMeSpace(lev) + fields[i]["name"] + "\n";
-              }
-            }
-          } else {
-            //可能是直接返回一个 schema
-            if (
-              (info["type"] &&
-                info["type"]["name"] &&
-                that.dic[info["type"]["name"]]) ||
-              (info["type"] &&
-                info["type"]["ofType"] &&
-                that.dic[info["type"]["ofType"]["name"]])
-            ) {
-              let typeName = "";
-              if (
-                info["type"] &&
-                info["type"]["ofType"] &&
-                info["type"]["ofType"]["name"]
-              ) {
-                typeName = info["type"]["ofType"]["name"];
-              } else {
-                typeName = info["type"]["name"];
-              }
-              tmpstr =
-                tmpstr +
-                //info["name"] +
-                renderFields(that.dic[typeName], lev + 1) +
-                "\n";
-            }
-          }
-        }
-        return tmpstr;
-      }
-
-      str =
-        str +
-        this.apiInfo.type_.toLowerCase() +
-        " " +
-        (this.apiInfo.name == "User" ? "user" : this.apiInfo.name) +
-        "(" +
-        getArgs(this.apiInfo) +
-        ") {\n";
-      str =
-        str +
-        (this.apiInfo.name == "User" ? "user" : this.apiInfo.name) +
-        "(" +
-        getSecondArgs(this.apiInfo) +
-        ") { \n" +
-        renderFields(this.apiInfo, 2) +
-        "\n  }\n}";
       function copyText(text, callback) {
         // 网上找的，为了不多加库真的很拼
         var tag = document.createElement("textarea");
@@ -604,7 +415,7 @@ export default {
           callback(text);
         }
       }
-      copyText(str);
+      copyText(query);
       //alert(str);
       this.$Message.success("复制成功");
     },
@@ -718,16 +529,16 @@ span.text {
   margin-left: 20px;
 }
 
-.markdownDocContainer ul{
+.markdownDocContainer ul {
   margin-left: 13.5px;
 }
 
-.markdownDocContainer img{
-  width: 100%
+.markdownDocContainer img {
+  width: 100%;
 }
 
-.markdownDocContainer>ol>li{
-  margin-top: 5px
+.markdownDocContainer > ol > li {
+  margin-top: 5px;
 }
 
 blockquote {

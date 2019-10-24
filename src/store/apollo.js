@@ -1,3 +1,5 @@
+const queries = require("./queries").default
+
 const state = {
     drawerShow: false,
     apiInfo: {},
@@ -537,7 +539,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
     - userId: 用户ID
     - userPoolId: 用户池ID
 - enabled: 是否开启
-            `, 
+            `,
             type: 'MFA 多因素认证'
         },
         changeMFA: {
@@ -605,13 +607,13 @@ Authing 将会向你定义的 webhook 地址发送携带该名用户ID的请求�
             `
         },
 
-//         getWebhookDetail: {
-//             name: "获取 webhook 详情",
-//             type: 'WebHook API',
-//             brief: `
-// 获取 webhook 详情。
-//             `
-//         },
+        //         getWebhookDetail: {
+        //             name: "获取 webhook 详情",
+        //             type: 'WebHook API',
+        //             brief: `
+        // 获取 webhook 详情。
+        //             `
+        //         },
 
         getWebhookLogs: {
             type: 'WebHook API',
@@ -644,7 +646,7 @@ Authing 将会向你定义的 webhook 地址发送携带该名用户ID的请求�
 \`\`\`
             `
         },
-        
+
         getWebhookLogDetail: {
             type: 'WebHook API',
             name: "获取 Webhook 日志详情",
@@ -682,7 +684,7 @@ Authing 将会向你定义的 webhook 地址发送携带该名用户ID的请求�
 \`\`\`
             `
         },
-        
+
         getWebhookSettingOptions: {
             type: 'WebHook API',
             name: "获取 Webhook 配置项",
@@ -848,7 +850,9 @@ LDAP 是一个树型的用来存储用户和组织信息的数据库，常被用
             type: 'OAuth API'
         },
 
-    }
+    },
+
+    queries: queries
 }
 
 const getters = {
@@ -857,7 +861,8 @@ const getters = {
     dic: () => state.dic,
     historyList: () => state.historyList,
     nowHistory: () => state.nowHistory,
-    apiDocs: () => state.apiDocs
+    apiDocs: () => state.apiDocs,
+    queries: () => state.queries
 }
 
 const mutations = {
