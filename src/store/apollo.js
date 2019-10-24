@@ -363,7 +363,7 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
 - showWXMPQRCode：布尔值，是否显示微信小程序扫码登录。
 - useMiniLogin：是否使用微信小程序“小登录”。
 - allowedOrigins：安全域（Allowed Origins） 是允许从 JavaScript 向 Authing API 发出请求的 URL（通常与 CORS 一起使用）。 默认情况下，系统会允许你使用所有网址。 如果需要，此字段允许你输入其他来源。 你可以通过逐行分隔多个有效 URL，并在子域级别使用通配符（例如：https://*.sample.com）。 验证这些 URL 时不考虑查询字符串和哈希信息，如果带上了查询字符串和哈希信息系统会自动忽略整个域名。
-- secret：用户池密钥，通过 用户池 -> 基础配置 可以查看。
+- secret：用户池密钥，通过 **用户池** -> **基础配置** 可以查看。
 - jwtExpired：jwt 过期时间
 - frequentRegisterCheck: 注册频率限制。
             `,
@@ -564,7 +564,7 @@ Authing 目前支持以下权限点：你可以向协作者开放其所需要的
 
 Webhooks 允许你对用户注册、登录等**事件**进行监听，从而对其做一些自定义处理。这能让Authing和你的业务更好地联动起来。
 Authing 内置了丰富的事件，目前包含注册、登录、修改密码、修改用户信息、用户邮箱被验证五种。
-开发者可以在后台 基础配置 -> Webhook 里面管理自己的 webhook。
+开发者可以在后台 **基础配置** -> **Webhook** 里面管理自己的 webhook。
 
 ![](http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-23-132141.png)
 
