@@ -5,6 +5,7 @@ import ApolloPage from '@/components/index'
 Vue.use(Router)
 
 export default new Router({
+  base: '/graphiql/',
   routes: [
     {
       path: '/',
