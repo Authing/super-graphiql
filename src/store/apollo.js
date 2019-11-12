@@ -341,6 +341,191 @@ Authing 提供开箱即用的邮件模块，开发者可以在 **消息服务** 
             tokenType: "both"
         },
 
+        clientRoles: {
+            name: '获取应用下所有角色',
+            type: '用户管理',
+            brief: `
+此接口用来获取应用下所有角色。
+
+> 点击查看[此接口 Node SDK 文档地址](https://learn.authing.cn/authing/sdk/sdk-for-node/update-user-permissions#huo-qu-ying-yong-xia-suo-you-jiao-se)
+
+1. 用户角色有什么用？
+用户角色是 Authing 管理用户的一种手段，你可以为角色设定任意的权限字符串，可以是 JSON 或数组；之后通过 Authing 的 API 获取设置的权限既而实现自己的业务逻辑。如下图所示：在 Authing 后台为用户池配置了一个名为“管理员”的角色，
+你可以使用 Authing 提供的接口和 [SDK](https://learn.authing.cn/authing/sdk/sdk-for-node/update-user-permissions) 获取到对应的权限：\`["删除用户"]\`
+之后便能够很好地和你的实际业务结合起来。
+
+![](http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-11-12-120145.png)
+
+2. 角色和用户的关系
+
+- 一个角色具备特定的权限，可以包含一个或多个用户。
+
+- 一个用户可以同时拥有多个角色。
+
+3. 如何查看用户池的用户角色列表？
+
+访问 **用户池** -> **用户中心** -> **用户角色**
+            `,
+            tokenType: 'admin'
+        },
+
+        queryRoleByUserId: {
+            name: '获取用户权限和角色',
+            type: '用户管理',
+            brief: `
+此接口用来获取特定用户拥有的角色和权限。
+
+> 点击查看[此接口 Node SDK 文档地址](https://learn.authing.cn/authing/sdk/sdk-for-node/update-user-permissions#huo-qu-yong-hu-quan-xian-he-jiao-se)
+
+1. 参数说明：
+- client: 用户池 ID
+- user: 用户 ID
+
+2. 返回数据示例：
+\`\`\`
+{
+    "totalCount": 1,
+    "list": [
+      {
+        "group": {
+          "name": "管理员",
+          "permissions": "[\"删除用户\"]"
+        }
+      },
+    ]
+}
+\`\`\`
+            `,
+            tokenType: 'both'
+
+        },
+
+        createRole: {
+            name: '创建用户角色',
+            type: '用户管理',
+            brief: `
+此接口用来创建用户角色。
+
+> 点击查看[此接口 Node SDK 文档地址](https://learn.authing.cn/authing/sdk/sdk-for-node/update-user-permissions#chuang-jian-yong-hu-jiao-se)
+
+
+返回数据示例：
+\`\`\`
+{
+    "_id": "5ca5c5dd8a61c7ffbfb129a9",
+    "name": "测试角色",
+    "client": "5c9c659cb9440b05cb2570e6",
+    "descriptions": "测试角色的描述",
+    "permissions": "[\"权限点1\"]"
+}
+\`\`\`
+            `,
+            token: 'admin'
+        },
+
+        updateRole: {
+            name: "修改用户角色",
+            type: '用户管理',
+            brief: `
+此接口用来修改用户角色。
+
+> 点击查看[此接口 Node SDK 文档地址](https://learn.authing.cn/authing/sdk/sdk-for-node/update-user-permissions#xiu-gai-jiao-se-quan-xian)
+
+
+1. 参数说明：
+- 角色 ID（\`_id\`）是必传的。
+
+2. 返回数据示例：
+\`\`\`
+{
+    "_id": "5ca5c5dd8a61c7ffbfb129a9",
+    "name": "测试角色",
+    "client": "5c9c659cb9440b05cb2570e6",
+    "descriptions": "测试角色的描述",
+    "permissions": "[\"权限点1\"]"
+}
+\`\`\`
+            `,
+            tokenType: 'admin'
+        },
+
+        assignUserToRole: {
+            name: '指派用户到某角色',
+            type: '用户管理',
+            brief: `
+此接口用来指派用户到某角色。
+
+> 点击查看[此接口 Node SDK 文档地址](https://learn.authing.cn/authing/sdk/sdk-for-node/update-user-permissions#zhi-pai-yong-hu-dao-mou-jiao-se)
+
+1. 如何在后台指派用户到某角色？
+![](http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-11-12-125809.png)
+
+2. 参数说明：
+- client: 必填，用户池 ID。
+- user: 必填，用户 ID。
+- group: 必填，角色 ID。
+            `,
+            tokenType: 'admin'
+        },
+
+        removeUserFromGroup: {
+            name: '将用户从某角色中移除',
+            type: '用户管理',
+            brief: `
+此接口用来将用户从某角色中移除。
+
+> 点击查看[此接口 Node SDK 文档地址](https://learn.authing.cn/authing/sdk/sdk-for-node/update-user-permissions#jiang-yong-hu-cong-mou-jiao-se-zhong-yi-chu)
+
+1. 参数说明：
+- client: 必填，用户池 ID。
+- user: 必填，用户 ID。
+- group: 必填，角色 ID。
+            `,
+            tokenType: 'admin'
+        },
+
+        usersInGroup: {
+            name: '获取某角色下全部用户',
+            type: '用户管理',
+            brief: `
+此接口用来获取某角色下全部用户。
+
+> 点击查看[此接口 Node SDK 文档地址](https://learn.authing.cn/authing/sdk/sdk-for-node/update-user-permissions#huo-qu-mou-jiao-se-xia-quan-bu-yong-hu)
+
+1. 参数说明：
+- group: 必填，角色 ID。
+- page: 选填，默认为 1。
+- count: 选填，默认为 10。
+
+2. 返回数据示例：
+\`\`\`
+{
+    "totalCount": 2,
+    "list": [
+        {
+            "_id": "5dc9695999128a6baf15e44b",
+            "group": {
+                "_id": "5da9c92a2a24432643a33969"
+            },
+            "client": {
+                "_id": "5c95905578fce5000166f853"
+            },
+            "user": {
+                "_id": "5dc8c6b7ebafee83c95b9c8b",
+                "photo": "https://usercontents.authing.cn/authing-avatar.png",
+                "username": "hrpw0awin7d@test.com",
+                "email": "hrpw0awin7d@test.com"
+            },
+            "createdAt": "2019-11-11 21:59:53"
+        }
+    ]
+}
+\`\`\`
+            `,
+            tokenType: 'admin'
+        },
+
+
         userClients: {
             name: "用户池列表",
             brief: `
