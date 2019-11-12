@@ -1,5 +1,5 @@
 const queries = {
-    getClientWhenSdkInit: `
+  getClientWhenSdkInit: `
 query getClientWhenSdkInit(
     $secret: String
     $clientId: String
@@ -60,7 +60,7 @@ query getClientWhenSdkInit(
 }    
     `,
 
-    register: `
+  register: `
 mutation register(
     $username: String
     $email: String
@@ -105,7 +105,7 @@ mutation register(
 }
     `,
 
-    login: `
+  login: `
 mutation login(
   $email: String
   $password: String
@@ -145,7 +145,7 @@ mutation login(
 }
     `,
 
-    decodeJwtToken: `
+  decodeJwtToken: `
 query decodeJwtToken($token: String!){
   decodeJwtToken(token: $token){
     data{
@@ -165,7 +165,7 @@ query decodeJwtToken($token: String!){
 }
     `,
 
-    refreshToken: `
+  refreshToken: `
 mutation RefreshToken($client: String!, $user: String!) {
     refreshToken(client: $client, user: $user) {
         token
@@ -175,7 +175,7 @@ mutation RefreshToken($client: String!, $user: String!) {
 }
     `,
 
-    user: `
+  user: `
 query user(
   $id: String!
   $registerInClient: String!
@@ -251,7 +251,7 @@ query user(
 }
     `,
 
-    users: `
+  users: `
 query users($registerInClient: String, $page: Int, $count: Int, $populate: Boolean) {
     users(registerInClient: $registerInClient, page: $page, count: $count, populate: $populate) {
         totalCount
@@ -270,7 +270,7 @@ query users($registerInClient: String, $page: Int, $count: Int, $populate: Boole
 }    
     `,
 
-    checkLoginStatus: `
+  checkLoginStatus: `
 query checkLoginStatus($token: String!) {
     checkLoginStatus(token: $token) {
         message
@@ -290,7 +290,7 @@ query checkLoginStatus($token: String!) {
 }
     `,
 
-    removeUsers: `
+  removeUsers: `
 mutation removeUsers($ids: [String], $registerInClient: String, $operator: String) {
     removeUsers(ids: $ids, registerInClient: $registerInClient, operator: $operator) {
         _id
@@ -298,7 +298,7 @@ mutation removeUsers($ids: [String], $registerInClient: String, $operator: Strin
 }
     `,
 
-    updateUser: `
+  updateUser: `
 mutation UpdateUser(
   $id: String!
   $email: String
@@ -350,7 +350,7 @@ mutation UpdateUser(
 }  
     `,
 
-    sendResetPasswordEmail: `
+  sendResetPasswordEmail: `
 mutation SendResetPasswordEmail($email: String!, $client: String!) {
   sendResetPasswordEmail(email: $email, client: $client) {
     message
@@ -359,7 +359,7 @@ mutation SendResetPasswordEmail($email: String!, $client: String!) {
 }   
     `,
 
-    verifyResetPasswordVerifyCode: `
+  verifyResetPasswordVerifyCode: `
 mutation VerifyResetPasswordVerifyCode(
   $email: String!
   $client: String!
@@ -376,7 +376,7 @@ mutation VerifyResetPasswordVerifyCode(
 }
     `,
 
-    sendVerifyEmail: `
+  sendVerifyEmail: `
 mutation SendVerifyEmail($email: String!, $client: String!) {
   sendVerifyEmail(email: $email, client: $client) {
     message
@@ -384,7 +384,7 @@ mutation SendVerifyEmail($email: String!, $client: String!) {
 }
     `,
 
-    changePassword: `
+  changePassword: `
 mutation ChangePassword(
   $email: String!
   $client: String!
@@ -420,7 +420,7 @@ mutation ChangePassword(
 }  
     `,
 
-    unbindEmail: `
+  unbindEmail: `
 mutation unbindEmail($user: String, $client: String) {
   unbindEmail(user: $user, client: $client) {
     _id
@@ -429,7 +429,7 @@ mutation unbindEmail($user: String, $client: String) {
 }
     `,
 
-    userClients: `
+  userClients: `
 query getUserClients($userId: String!, $page: Int, $count: Int) {
   userClients(userId: $userId, page: $page, count: $count) {
     totalCount
@@ -454,7 +454,7 @@ query getUserClients($userId: String!, $page: Int, $count: Int) {
 }
     `,
 
-    client: `
+  client: `
 query client($id: String!, $userId: String!) {
   client(id: $id, userId: $userId) {
     _id
@@ -498,7 +498,7 @@ query client($id: String!, $userId: String!) {
 }
     `,
 
-    userClientTypes: `
+  userClientTypes: `
 query getUserClientType {
     userClientTypes {
         _id
@@ -510,7 +510,7 @@ query getUserClientType {
 }  
     `,
 
-    queryPermissionList: `
+  queryPermissionList: `
 query queryPermissionList {
   queryPermissionList {
     list {
@@ -523,7 +523,7 @@ query queryPermissionList {
 }
     `,
 
-    isClientBelongToUser: `
+  isClientBelongToUser: `
 query isClientBelongToUser(
     $userId: String
     $clientId: String
@@ -534,7 +534,7 @@ query isClientBelongToUser(
     
     `,
 
-    removeUserClients: `
+  removeUserClients: `
 mutation removeUserClients($ids: [String]) {
   removeUserClients(ids: $ids) {
     _id
@@ -542,7 +542,7 @@ mutation removeUserClients($ids: [String]) {
 }  
     `,
 
-    updateUserClient: `
+  updateUserClient: `
 mutation updateUserClient(
   $_id: String!
   $name: String
@@ -617,7 +617,7 @@ mutation updateUserClient(
 }
     `,
 
-    bindOtherOAuth: `
+  bindOtherOAuth: `
 mutation bindOtherOAuth(
   $user: String
   $client: String
@@ -637,7 +637,7 @@ mutation bindOtherOAuth(
 }
     `,
 
-    unbindOtherOAuth: `
+  unbindOtherOAuth: `
 mutation unbindOtherOAuth($user: String, $client: String, $type: String!) {
   unbindOtherOAuth(user: $user, client: $client, type: $type) {
     _id
@@ -646,7 +646,7 @@ mutation unbindOtherOAuth($user: String, $client: String, $type: String!) {
 }  
     `,
 
-    setInvitationState: `
+  setInvitationState: `
 mutation setUserInvitationEnable($client: String!, $enablePhone: Boolean!) {
   setInvitationState(client: $client, enablePhone: $enablePhone) {
     client
@@ -657,7 +657,7 @@ mutation setUserInvitationEnable($client: String!, $enablePhone: Boolean!) {
 }
     `,
 
-    queryInvitationState: `
+  queryInvitationState: `
 query getUserInvitationEnable($client: String!) {
   queryInvitationState(client: $client) {
     client
@@ -666,7 +666,7 @@ query getUserInvitationEnable($client: String!) {
 }
     `,
 
-    addToInvitation: `
+  addToInvitation: `
 mutation addInvitationUser($client: String!, $phone: String!) {
   addToInvitation(client: $client, phone: $phone) {
     client
@@ -675,7 +675,7 @@ mutation addInvitationUser($client: String!, $phone: String!) {
 }
     `,
 
-    removeFromInvitation: `
+  removeFromInvitation: `
 mutation removeInvitationUser($client: String!, $phone: String!) {
   removeFromInvitation(client: $client, phone: $phone) {
     client
@@ -684,7 +684,7 @@ mutation removeInvitationUser($client: String!, $phone: String!) {
 }   
     `,
 
-    queryInvitation: `
+  queryInvitation: `
 query getUserInvitationList($client: String!) {
   queryInvitation(client: $client) {
     client
@@ -693,7 +693,7 @@ query getUserInvitationList($client: String!) {
 }   
     `,
 
-    queryMFA: `
+  queryMFA: `
 query queryMFA($_id: String, $userId: String, $userPoolId: String) {
 	queryMFA(_id: $_id, userId: $userId, userPoolId: $userPoolId) {
 		_id
@@ -705,7 +705,7 @@ query queryMFA($_id: String, $userId: String, $userPoolId: String) {
 }
     `,
 
-    changeMFA: `
+  changeMFA: `
 mutation changeMFA($_id: String, $userId: String, $userPoolId: String, $enable: Boolean!, $refreshKey: Boolean) {
     changeMFA(_id: $_id, userId: $userId, userPoolId: $userPoolId, enable: $enable, refreshKey: $refreshKey) {
         _id
@@ -717,7 +717,7 @@ mutation changeMFA($_id: String, $userId: String, $userPoolId: String, $enable: 
 }    
     `,
 
-    addClientWebhook: `
+  addClientWebhook: `
 mutation addClientWebhook(
   $url: String!
   $events: [String!]!
@@ -739,7 +739,7 @@ mutation addClientWebhook(
 }    
     `,
 
-    getAllWebhooks: `
+  getAllWebhooks: `
 query getAllWebhooks($client: String!) {
   getAllWebhooks(client: $client) {
     _id
@@ -757,7 +757,7 @@ query getAllWebhooks($client: String!) {
 }  
     `,
 
-    getWebhookLogs: `
+  getWebhookLogs: `
 query getWebhookLogs($webhook: String!) {
   getWebhookLogs(webhook: $webhook) {
     _id
@@ -771,7 +771,7 @@ query getWebhookLogs($webhook: String!) {
 } 
     `,
 
-    getWebhookLogDetail: `
+  getWebhookLogDetail: `
 query getWebhookLogDetail($id: String!) {
   getWebhookLogDetail(id: $id) {
     _id
@@ -790,7 +790,7 @@ query getWebhookLogDetail($id: String!) {
 }   
     `,
 
-    getWebhookSettingOptions: `
+  getWebhookSettingOptions: `
 query getWebhookSettingOptions{
   getWebhookSettingOptions{
     webhookEvents{
@@ -803,7 +803,7 @@ query getWebhookSettingOptions{
 }
     `,
 
-    updateClientWebhook: `
+  updateClientWebhook: `
 mutation updateClientWebhook(
   $id: String!
   $url: String!
@@ -825,7 +825,7 @@ mutation updateClientWebhook(
 }
     `,
 
-    deleteClientWebhook: `
+  deleteClientWebhook: `
 mutation deleteClientWebhook($id: String!) {
   deleteClientWebhook(id: $id) {
     _id
@@ -833,13 +833,13 @@ mutation deleteClientWebhook($id: String!) {
 }
     `,
 
-    SendWebhookTest: `
+  SendWebhookTest: `
 mutation SendWebhookTest($id: String!) {
   SendWebhookTest(id: $id)
 } 
     `,
 
-    LoginByLDAP: `
+  LoginByLDAP: `
 mutation LoginByLDAP($username: String!, $password: String!, $clientId: String!, $browser: String) {
 	LoginByLDAP(username: $username, password: $password, clientId: $clientId, browser: $browser) {
 		_id
@@ -869,7 +869,7 @@ mutation LoginByLDAP($username: String!, $password: String!, $clientId: String!,
 
     `,
 
-    GetUserAuthorizedApps: `
+  GetUserAuthorizedApps: `
 query GetUserAuthorizedApps(
   $clientId: String
   $userId: String
@@ -897,7 +897,7 @@ query GetUserAuthorizedApps(
 }  
     `,
 
-    RevokeUserAuthorizedApp:`
+  RevokeUserAuthorizedApp: `
 mutation RevokeUserAuthorizedApp($appId: String, $userPoolId: String, $userId: String) {
 	RevokeUserAuthorizedApp(appId: $appId, userId: $userId, userPoolId: $userPoolId) {
 		_id
@@ -909,6 +909,119 @@ mutation RevokeUserAuthorizedApp($appId: String, $userPoolId: String, $userId: S
 		when
 	}
 }
+    `,
+
+  clientRoles: `
+query clientRoles($client:String!,$page:Int,$count:Int){
+  clientRoles(client:$client,page:$page,count:$count){
+    totalCount
+    list{
+      _id
+      name
+      descriptions
+      client
+      permissions
+      createdAt
+    }
+  }
+}
+    `,
+
+  queryRoleByUserId: `
+query QueryRoleByUserId($user:String!,$client:String!){
+  queryRoleByUserId(client:$client,user:$user){
+    totalCount
+    list{
+      group{
+          _id
+          name
+        descriptions
+        client
+        permissions
+        createdAt
+      }
+    }
+  }
+}
+    `,
+
+  createRole: `
+mutation createRole($client:String!, $name:String!,$descriptions: String){
+  createRole(client:$client,name:$name,descriptions:$descriptions){
+    _id
+    name
+    descriptions
+    client
+    permissions
+    createdAt
+  }
+}
+    `,
+
+  updateRole: `
+mutation updateRole($_id:String!,$client:String!, $name:String!,$descriptions: String,$permissions:String){
+  updateRole(_id:$_id,client:$client,name:$name,descriptions:$descriptions,permissions:$permissions){
+    _id
+    name
+    descriptions
+    client
+    permissions
+    createdAt
+  }
+}
+    `,
+
+  assignUserToRole: `
+mutation assignUserToRole($client:String!, $user:String!, $group:String!){
+  assignUserToRole(client:$client, user:$user, group:$group){
+    totalCount
+    list{
+      group{
+        _id
+        name
+        descriptions
+        client
+        permissions
+        createdAt
+      }
+    }
+  }
+}
+    `,
+
+  removeUserFromGroup: `
+mutation removeUserFromGroup($client:String!, $user:String!, $group:String!){
+  removeUserFromGroup(client:$client, user:$user, group:$group){
+    _id
+    user{
+      _id
+      name
+    }
+    client{
+      _id
+      name
+    }
+    group{
+      _id
+      name
+    }
+    createdAt
+  }
+}
+    `,
+
+  usersInGroup: `
+    query usersInGroup($group:String!,$page:Int, $count:Int){
+      usersInGroup(group:$group,page:$page,count:$count){
+        totalCount
+        list{
+          _id
+          email
+          username
+          upgrade
+        }
+      }
+    }
     `
 
 }
