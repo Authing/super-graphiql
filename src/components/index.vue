@@ -900,6 +900,18 @@ export default {
             arr.push("[" + (dic[key]._type || "Schema") + "] " + dic[key].name);
           }
         }
+        // 同时查询 schema
+        const schemasGroup = _.find(this.treeData, { name: "Schemas" });
+        if (schemasGroup) {
+          const schemas = schemasGroup.children;
+          // console.log(schemas);
+          for (let item of schemas) {
+            const { name } = item;
+            if (name.toLowerCase().includes(val)) {
+              arr.push("[Schema] " + name);
+            }
+          }
+        }
         // alert(JSON.stringify(arr));
         this.searchResult = arr;
         if (arr.length > 0) {
