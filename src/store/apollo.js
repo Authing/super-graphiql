@@ -39,7 +39,8 @@ const state = {
     historyList: [],
     nowHistory: 0,
     queries,
-    apiDocs: {}
+    apiDocs: {},
+    schemas: []
 }
 
 const getters = {
@@ -49,7 +50,8 @@ const getters = {
     historyList: () => state.historyList,
     nowHistory: () => state.nowHistory,
     apiDocs: () => state.apiDocs,
-    queries: () => state.queries
+    queries: () => state.queries,
+    schemas: () => state.schemas
 }
 
 const mutations = {
@@ -109,6 +111,9 @@ const mutations = {
     setApiDocs(state, { docs, queries }) {
         state.apiDocs = docs
         state.queries = queries
+    },
+    setSchemas(state, data) {
+        state.schemas = data
     }
 }
 
@@ -165,6 +170,9 @@ const actions = {
         };
         xhttp.open("GET", "http://localhost:5678/list");
         xhttp.send();
+    },
+    setSchemas({ commit }, data) {
+        commit('setSchemas', data)
     }
 }
 

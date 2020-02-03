@@ -841,6 +841,10 @@ export default {
         sortedTree.push(group);
       }
       this.treeData = sortedTree;
+      let schemasGroup = _.find(sortedTree, { name: "Schemas" });
+      if (schemasGroup) {
+        this.$store.dispatch("apollo/setSchemas", schemasGroup.children);
+      }
     },
 
     showAPIInfo(info, node) {

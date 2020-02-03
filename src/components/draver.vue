@@ -36,40 +36,40 @@
         <Alert v-if="apiScenes==='admin'">
           提示
           <template slot="desc">
-            <span
-              @click="showUsageModal('admin')"
-              class="tokenUsageReminderText"
-            >此接口需要发送用户池管理员 Token，<a href="#">发送方式请点击这里查看</a>。 </span>
+            <span @click="showUsageModal('admin')" class="tokenUsageReminderText">
+              此接口需要发送用户池管理员 Token，
+              <a href="#">发送方式请点击这里查看</a>。
+            </span>
           </template>
         </Alert>
 
         <Alert v-if="apiScenes==='both'">
           提示
           <template slot="desc">
-            <span
-              @click="showUsageModal('both')"
-              class="tokenUsageReminderText"
-            >此接口需要发送用户池管理员 Token 或用户 Token，了解二者不同以及发送方式，<a href="#">请点击这里查看</a>。</span>
+            <span @click="showUsageModal('both')" class="tokenUsageReminderText">
+              此接口需要发送用户池管理员 Token 或用户 Token，了解二者不同以及发送方式，
+              <a href="#">请点击这里查看</a>。
+            </span>
           </template>
         </Alert>
 
         <Alert v-if="apiScenes==='user'">
           提示
           <template slot="desc">
-            <span
-              @click="showUsageModal('user')"
-              class="tokenUsageReminderText"
-            >此接口需要发送用户 Token，<a href="#">发送方式请点击这里查看</a>。</span>
+            <span @click="showUsageModal('user')" class="tokenUsageReminderText">
+              此接口需要发送用户 Token，
+              <a href="#">发送方式请点击这里查看</a>。
+            </span>
           </template>
         </Alert>
 
         <Alert v-if="apiScenes==='mfa'">
           提示
           <template slot="desc">
-            <span
-              @click="showUsageModal('mfa')"
-              class="tokenUsageReminderText"
-            >MFA 多因素认证接口需要发送 Token，<a href="#">发送方式请点击这里查看</a>。</span>
+            <span @click="showUsageModal('mfa')" class="tokenUsageReminderText">
+              MFA 多因素认证接口需要发送 Token，
+              <a href="#">发送方式请点击这里查看</a>。
+            </span>
           </template>
         </Alert>
 
@@ -381,6 +381,7 @@
 import { mapGetters, mapActions } from "vuex";
 import VueMarkdown from "vue-markdown";
 import { Alert, Modal } from "view-design";
+import _ from "lodash";
 
 export default {
   name: "draver",
@@ -419,16 +420,39 @@ export default {
       "nowHistory",
       "historyList",
       "apiDocs",
-      "queries"
+      "queries",
+      "schemas"
     ]),
 
     doc() {
       const emptyDoc =
         "暂无描述，详情请见文档：[https://docs.authing.cn/authing/sdk/open-graphql](https://docs.authing.cn/authing/sdk/open-graphq)";
+
+      // 显示API 文档
       const apiName = this.apiInfo["name"];
       const apiDoc = this.apiDocs[apiName];
       const brief = apiDoc && apiDoc["brief"] ? apiDoc["brief"] : undefined;
-      return brief || emptyDoc;
+      // 显示 Schema
+      let schemaDoc = null;
+      if (!brief) {
+        let schema = _.find(this.schemas, { name: apiName });
+        if (schema) {
+          let inputFields = schema.inputFields;
+          if (inputFields) {
+            schemaDoc = `
+参数列表：
+${inputFields
+  .map(item => {
+    const name = item.name;
+    const isRequred = item.type && item.type.kind === "NOT_NULL";
+    return `- ${name}: ${isRequred ? "必填" : "选填"}`;
+  })
+  .join("\n")}
+        `;
+          }
+        }
+      }
+      return brief || schemaDoc || emptyDoc;
     }
   },
   watch: {
@@ -499,6 +523,7 @@ export default {
           api.args.length > 0
         ) {
           this.args = api.args;
+          console.log(this.args);
         }
       } finally {
         try {
