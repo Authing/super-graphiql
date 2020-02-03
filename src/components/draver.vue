@@ -444,7 +444,7 @@ export default {
 ${inputFields
   .map(item => {
     const name = item.name;
-    const isRequred = item.type && item.type.kind === "NOT_NULL";
+    const isRequred = item.type && item.type.kind === "NON_NULL";
     return `- ${name}: ${isRequred ? "必填" : "选填"}`;
   })
   .join("\n")}
