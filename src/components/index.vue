@@ -173,6 +173,8 @@ import graphqlMutation from "@/apollo/mutation";
 import gql from "graphql-tag";
 import draver from "./draver";
 import { mapGetters, mapActions } from "vuex";
+import _ from "lodash";
+
 export default {
   name: "ApolloPage",
   components: { draver, MonacoEditor },
@@ -240,6 +242,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.dispatch("apollo/loadApiDocs");
     this.getHeader();
     this.getList();
     const that = this;
@@ -758,9 +761,11 @@ export default {
       let tree = this.treeData;
       const docs = this.apiDocs;
       let tmp = {};
-      //alert(JSON.stringify(docs))
       let arr = [""];
       for (let key in docs) {
+        if (!docs[key].type) {
+          continue;
+        }
         if (arr.indexOf(docs[key]["type"]) == -1) {
           arr.push(docs[key]["type"]);
           tmp[docs[key]["type"]] = {
@@ -822,7 +827,20 @@ export default {
       let schemas = tree[0];
       tree = tree.slice(1);
       tree.push(schemas);
-      this.treeData = tree;
+      // 这几个类别放在最前面
+      let topKeys = ["用户池鉴权", "用户鉴权", "用户管理", "用户池管理"];
+      let sortedTree = [];
+      for (let key of topKeys) {
+        let group = _.find(tree, { name: key });
+        sortedTree.push(group);
+      }
+      for (let group of tree) {
+        if (topKeys.indexOf(group.name) !== -1) {
+          continue;
+        }
+        sortedTree.push(group);
+      }
+      this.treeData = sortedTree;
     },
 
     showAPIInfo(info, node) {
@@ -916,7 +934,7 @@ export default {
     async menuOnSelect(name) {
       if (name == 2) {
         this.openSettings();
-      } else if ((name == 3)) {
+      } else if (name == 3) {
         try {
           let json = JSON.stringify(this.variables);
           if (json) {
