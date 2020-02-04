@@ -1,5 +1,3 @@
-const queries = require("./queries").default
-
 /*
 {
     name: '初始化',
@@ -38,7 +36,7 @@ const state = {
     dic: {},
     historyList: [],
     nowHistory: 0,
-    queries,
+    queries: [],
     apiDocs: {},
     schemas: []
 }
@@ -152,15 +150,22 @@ const actions = {
                 const data = JSON.parse(this.responseText)
                 let docs = {}
                 let queries = {}
-                for (let key in data) {
-                    let api = data[key]
-                    let { name, description, query, doc, module } = api
-                    docs[key] = {
+                const { list, metadata } = data
+                for (let api of list) {
+                    let { name, description, query, doc, group, auth } = api
+                    let tokenType = ""
+                    if (auth === "admin") {
+                        tokenType = "admin"
+                    } else if (auth === "user") {
+                        tokenType = "both"
+                    }
+                    docs[name] = {
                         name: description,
                         brief: doc,
-                        type: module || ""
+                        type: group || "",
+                        tokenType
                     }
-                    queries[key] = query
+                    queries[name] = query
                 }
                 commit('setApiDocs', {
                     docs,

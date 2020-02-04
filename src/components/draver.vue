@@ -523,7 +523,6 @@ ${inputFields
           api.args.length > 0
         ) {
           this.args = api.args;
-          console.log(this.args);
         }
       } finally {
         try {
@@ -546,7 +545,7 @@ ${inputFields
               this.fields = api.inputFields;
             }
           } finally {
-            console.log("ok");
+            // console.log("ok");
           }
         }
       }
