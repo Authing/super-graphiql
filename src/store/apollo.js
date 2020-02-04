@@ -1,5 +1,5 @@
 // 配置
-const api = "http://123.207.142.144:5678/list"
+const api = "https://authing.cn/api-docs/list"
 
 const state = {
     drawerShow: false,
