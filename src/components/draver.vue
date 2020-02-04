@@ -802,6 +802,16 @@ span.text {
   width: 100%;
 }
 
+.markdownDocContainer h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 11px;
+  margin-bottom: 5px;
+}
+
 .markdownDocContainer ul {
   margin-left: 13.5px;
 }
@@ -814,9 +824,11 @@ span.text {
   margin-top: 5px;
 }
 
-blockquote {
+.markdownDocContainer blockquote {
   border-left: 4px solid #ccc;
   padding-left: 11px;
+  margin-top: 11px;
+  margin-bottom: 11px;
 }
 
 .tokenUsageReminderText:hover {
