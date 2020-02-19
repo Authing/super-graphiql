@@ -174,9 +174,9 @@ import gql from "graphql-tag";
 import draver from "./draver";
 import { mapGetters, mapActions } from "vuex";
 import _ from "lodash";
-const configs = require("@/configs/configs");
-const userHost = configs.userHost;
-const oauthHost = configs.oauthHost;
+const configs = require("@/authing_config/config");
+const userHost = configs.default.baseUrls.users.uri + "/graphql";
+const oauthHost = configs.default.baseUrls.oauth.uri + "/graphql";
 
 export default {
   name: "ApolloPage",

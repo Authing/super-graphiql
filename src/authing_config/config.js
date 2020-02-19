@@ -42,24 +42,25 @@ if (base == 'localhost') {
 if (base === '0.0.0.0') {
   // 必须所有服务都运行在本地
   urlList = {
-    pay: 'http://localhost:5558',
-    users: 'http://localhost:5555',
-    emails: 'http://localhost:5557',
-    oauth: 'http://localhost:5556'
+    pay: 'http://localhost:5510',
+    users: 'http://localhost:5510',
+    emails: 'http://localhost:5510',
+    oauth: 'http://localhost:5510'
   }
 }
 // eslint-disable-next-line eqeqeq
 if (base == 'local.authing.cn') {
   // 必须所有服务都运行在本地
   urlList = {
-    pay: 'http://local.authing.cn:5558',
-    users: 'http://local.authing.cn:5555',
-    emails: 'http://local.authing.cn:5557',
-    oauth: 'http://local.authing.cn:5556'
+    pay: 'http://local.authing.cn:5510',
+    users: 'http://local.authing.cn:5510',
+    emails: 'http://local.authing.cn:5510',
+    oauth: 'http://local.authing.cn:5510'
   }
 }
 
 let config = {
+  api: "https://1390279131788301.cn-beijing.fc.aliyuncs.com/2016-08-15/proxy/authing-graphql-api/nodejs8/",
   env: Env,
   accessToken: {
     days: 15

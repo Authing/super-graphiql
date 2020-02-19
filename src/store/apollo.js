@@ -1,7 +1,7 @@
-const configs = require("@/configs/configs")
+const configs = require("@/authing_config/config")
 
 // 配置
-const api = configs.api
+const api = configs.default.api
 
 const state = {
     drawerShow: false,
