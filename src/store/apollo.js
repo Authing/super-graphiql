@@ -1,5 +1,7 @@
+const configs = require("@/configs/configs")
+
 // 配置
-const api = "https://authing.cn/api-docs/list"
+const api = configs.api
 
 const state = {
     drawerShow: false,

@@ -174,6 +174,9 @@ import gql from "graphql-tag";
 import draver from "./draver";
 import { mapGetters, mapActions } from "vuex";
 import _ from "lodash";
+const configs = require("@/configs/configs");
+const userHost = configs.userHost;
+const oauthHost = configs.oauthHost;
 
 export default {
   name: "ApolloPage",
@@ -184,16 +187,10 @@ export default {
       check: 0,
       settingShow: false,
       settings: {
-        url:
-          localStorage.getItem("gqlurl") == "https://oauth.authing.cn/graphql"
-            ? "https://oauth.authing.cn/graphql"
-            : "https://users.authing.cn/graphql"
+        url: localStorage.getItem("gqlurl") == oauthHost ? oauthHost : userHost
       },
       headers: "",
-      urlList: [
-        "https://users.authing.cn/graphql",
-        "https://oauth.authing.cn/graphql"
-      ],
+      urlList: [userHost, oauthHost],
       code: "",
       variables: "",
       result: "",
@@ -272,12 +269,10 @@ export default {
       } else {
         this.headers = "";
       }
-      if (
-        localStorage.getItem("gqlurl") == "https://oauth.authing.cn/graphql"
-      ) {
-        this.settings.url = "https://oauth.authing.cn/graphql";
+      if (localStorage.getItem("gqlurl") == oauthHost) {
+        this.settings.url = oauthHost;
       } else {
-        this.settings.url = "https://users.authing.cn/graphql";
+        this.settings.url = userHost;
       }
     },
     async getList() {
@@ -390,9 +385,7 @@ export default {
         variables: {}
       };
       let res;
-      if (
-        localStorage.getItem("gqlurl") == "https://oauth.authing.cn/graphql"
-      ) {
+      if (localStorage.getItem("gqlurl") == "oauthHost") {
         res = await graphqlQuery(gqls, "OAuthClient");
       } else {
         res = await graphqlQuery(gqls);
@@ -813,6 +806,7 @@ export default {
           };
         }
         let dicItem = this.dic[key];
+        console.log(dicItem);
         if (dicItem) {
           if (docs[key]["name"]) {
             dicItem["title"] = docs[key]["name"];
@@ -841,6 +835,7 @@ export default {
         sortedTree.push(group);
       }
       this.treeData = sortedTree;
+      console.log(this.treeData);
       let schemasGroup = _.find(sortedTree, { name: "Schemas" });
       if (schemasGroup) {
         this.$store.dispatch("apollo/setSchemas", schemasGroup.children);
@@ -863,9 +858,7 @@ export default {
           [key].click();
         if (info.children.length == 0) {
           let newurl =
-            that.settings.url == "https://users.authing.cn/graphql"
-              ? "https://oauth.authing.cn/graphql"
-              : "https://users.authing.cn/graphql";
+            that.settings.url == "userHost" ? "oauthHost" : "userHost";
           that.$Modal.confirm({
             title: "是否更换 GraphQL 地址",
             content: `<p>调用这类 API 需要把源切换为</p><p>${newurl}</p>`,
@@ -1007,9 +1000,7 @@ export default {
               )
               //variables: {}
             },
-            localStorage.getItem("gqlurl") == "https://oauth.authing.cn/graphql"
-              ? "OAuthClient"
-              : null
+            localStorage.getItem("gqlurl") == "oauthHost" ? "OAuthClient" : null
           );
         } else {
           res = await graphqlQuery(
@@ -1025,9 +1016,7 @@ export default {
               //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiNzgwNzE4MzZAcXEuY29tIiwiaWQiOiI1YWU1ZTNhOTZmYzk0YzAwMDE1NjljOWIiLCJjbGllbnRJZCI6IjU5Zjg2YjQ4MzJlYjI4MDcxYmRkOTIxNCJ9LCJpYXQiOjE1Njc3NjM3NTksImV4cCI6MTU2OTA1OTc1OX0.T38xIo0KOzj_fec7JbTWA2JitBNAm-I9SsGuHn5hq7g"
               // }
             },
-            localStorage.getItem("gqlurl") == "https://oauth.authing.cn/graphql"
-              ? "OAuthClient"
-              : null
+            localStorage.getItem("gqlurl") == "oauthHost" ? "OAuthClient" : null
           );
         }
         this.result = JSON.stringify(res, null, 4);
