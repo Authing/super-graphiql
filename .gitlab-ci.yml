@@ -1,0 +1,52 @@
+image: node:12.14.0
+
+stages:
+  - build
+  - upload
+
+before_script:
+  - export VERSION=$(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed 's/[version:,\",]//g' | tr -d '[[:space:]]')
+  - |
+    case "$CI_COMMIT_REF_NAME" in
+    "master") OSS_URL=${CDN_OSS_PROD} ;;
+    *) OSS_URL=${CDN_OSS_DAILY} ;;
+    esac
+  - |
+    case "$CI_COMMIT_REF_NAME" in
+    "master") PUBLIC_URL=//cdn-prod.auting.co/authing-fe-graphiql/${VERSION} ;;
+    *) PUBLIC_URL=//cdn-daily.auting.co/authing-fe-graphiql/${VERSION} ;;
+    esac
+  - echo "home=https://npm.taobao.org" > ~/.npmrc
+  - echo "registry=https://registry.npm.taobao.org/" >> ~/.npmrc
+
+build:
+  stage: build
+  cache:
+    untracked: true
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+  rules:
+    - if: '$CI_COMMIT_REF_NAME != "master"'
+      when: manual
+  script:
+    - echo $PUBLIC_URL
+    - yarn
+    - yarn build
+  artifacts:
+    untracked: false
+    paths:
+      - build
+    expire_in: 30 days
+
+upload:oss:
+  stage: upload
+  image:
+    name: fuergaosi/ossutil:latest
+  script:
+    - >
+      ossutil --access-key-id ${ALIYUN_ACCESS_KEY}
+      --access-key-secret ${ALIYUN_ACCESS_KEY_SECRET}
+      -e oss-cn-zhangjiakou.aliyuncs.com cp -r -f build oss://${OSS_URL}/authing-fe-graphiql/${VERSION}/
+  dependencies:
+    - build
