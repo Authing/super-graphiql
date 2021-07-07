@@ -1,17 +1,28 @@
 <template>
   <div>
-    <Drawer :closable="false" width="640" v-model="modalShow" @on-close="hideDrawer">
+    <Drawer
+      :closable="false"
+      width="640"
+      v-model="modalShow"
+      @on-close="hideDrawer"
+    >
       <div class="bottomBox">
         <div class="bottomItem" @click="lastPage">
           <Icon type="md-arrow-round-back" />
-          <span class="txt">上一条：{{ nowHistory - 1 >= 0 ? historyList[nowHistory - 1].name : '无' }}</span>
+          <span class="txt"
+            >上一条：{{
+              nowHistory - 1 >= 0 ? historyList[nowHistory - 1].name : "无"
+            }}</span
+          >
         </div>
         <div
-          v-if="historyList.length > 0 && (historyList.length - 1) > nowHistory"
+          v-if="historyList.length > 0 && historyList.length - 1 > nowHistory"
           class="bottomItem"
           @click="nextPage"
         >
-          <span class="txt">下一条：{{ historyList[nowHistory + 1].name }}</span>
+          <span class="txt"
+            >下一条：{{ historyList[nowHistory + 1].name }}</span
+          >
           <Icon type="md-arrow-round-forward" />
         </div>
       </div>
@@ -19,7 +30,9 @@
         <div class="firstTitle" :style="pStyle">
           <span>
             <Tag color="primary">
-              <span style="font-size: 14px;font-weight: bold;">{{ apiInfo.type_ || 'Type' }}</span>
+              <span style="font-size: 14px; font-weight: bold;">{{
+                apiInfo.type_ || "Type"
+              }}</span>
             </Tag>
             {{ apiInfo.name }}
           </span>
@@ -29,41 +42,55 @@
             @mousedown="makeGQLCode"
             href="javascript: void(0)"
           >
-            <Icon type="md-code-working" size="16" style="margin-right: 4px;" />生成查询语句
+            <Icon
+              type="md-code-working"
+              size="16"
+              style="margin-right: 4px;"
+            />生成查询语句
           </span>
         </div>
 
-        <Alert v-if="apiScenes==='admin'">
+        <Alert v-if="apiScenes === 'admin'">
           提示
           <template slot="desc">
-            <span @click="showUsageModal('admin')" class="tokenUsageReminderText">
+            <span
+              @click="showUsageModal('admin')"
+              class="tokenUsageReminderText"
+            >
               此接口需要发送用户池管理员 Token，
               <a href="#">发送方式请点击这里查看</a>。
             </span>
           </template>
         </Alert>
 
-        <Alert v-if="apiScenes==='both'">
+        <Alert v-if="apiScenes === 'both'">
           提示
           <template slot="desc">
-            <span @click="showUsageModal('both')" class="tokenUsageReminderText">
-              此接口需要发送用户池管理员 Token 或用户 Token，了解二者不同以及发送方式，
+            <span
+              @click="showUsageModal('both')"
+              class="tokenUsageReminderText"
+            >
+              此接口需要发送用户池管理员 Token 或用户
+              Token，了解二者不同以及发送方式，
               <a href="#">请点击这里查看</a>。
             </span>
           </template>
         </Alert>
 
-        <Alert v-if="apiScenes==='user'">
+        <Alert v-if="apiScenes === 'user'">
           提示
           <template slot="desc">
-            <span @click="showUsageModal('user')" class="tokenUsageReminderText">
+            <span
+              @click="showUsageModal('user')"
+              class="tokenUsageReminderText"
+            >
               此接口需要发送用户 Token，
               <a href="#">发送方式请点击这里查看</a>。
             </span>
           </template>
         </Alert>
 
-        <Alert v-if="apiScenes==='mfa'">
+        <Alert v-if="apiScenes === 'mfa'">
           提示
           <template slot="desc">
             <span @click="showUsageModal('mfa')" class="tokenUsageReminderText">
@@ -82,8 +109,7 @@
             <li>如何获取管理员 Token?</li>
             <span>
               调用
-              <b>用户池鉴权</b> ->
-              <b>初始化</b> 接口会返回管理员 Token。(即
+              <b>用户池鉴权</b> -> <b>初始化</b> 接口会返回管理员 Token。(即
               <code>accessToken</code> )
             </span>
             <li>如何发送 Token？</li>
@@ -91,49 +117,60 @@
               添加到 HTTP 请求的
               <a
                 href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Authorization"
-              >Authorization Header</a> 中，
-              并在前面加上 "
+                >Authorization Header</a
+              >
+              中， 并在前面加上 "
               <code>Bearer</code>"（别忘了空格），比如你获取到的
               <code>accessToken</code> 为
-              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>,
-              那么最终的 Authorization 请求头就是
+              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>, 那么最终的
+              Authorization 请求头就是
               <code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>
             </span>
             <li>如何在界面中模拟发送 Token</li>
-            <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
+            <span
+              >在 Headers 编辑器中输入正确的 Authorization
+              请求头，同时勾选上右上角的复选框。</span
+            >
             <img
-              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
+              src="https://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
               style="width: 100%;"
               alt
             />
           </ol>
         </Modal>
 
-        <Modal v-model="showUserTokenUsage" title="如何使用用户 Token?" @on-ok="hideUsageModal('user')">
+        <Modal
+          v-model="showUserTokenUsage"
+          title="如何使用用户 Token?"
+          @on-ok="hideUsageModal('user')"
+        >
           <ol>
             <li>如何获取用户 Token?</li>
             <span>
               调用
-              <b>用户鉴权</b> ->
-              <b>登录</b> 接口会返回用户 Token。
+              <b>用户鉴权</b> -> <b>登录</b> 接口会返回用户 Token。
             </span>
             <li>如何发送 Token？</li>
             <span>
               添加到 HTTP 请求的
               <a
                 href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Authorization"
-              >Authorization Header</a> 中，
-              并在前面加上 "
+                >Authorization Header</a
+              >
+              中， 并在前面加上 "
               <code>Bearer</code>"（别忘了空格），比如你获取到的
               <code>accessToken</code> 为
-              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>,
-              那么最终的 Authorization 请求头就是
+              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>, 那么最终的
+              Authorization 请求头就是
               <code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>
             </span>
             <li>如何在界面中模拟发送 Token</li>
-            <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
+            <span
+              >在 Headers 编辑器中输入正确的 Authorization
+              请求头，同时勾选上右上角的复选框。</span
+            >
             <img
-              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
+              src="https://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
               style="width: 100%;"
               alt
             />
@@ -147,38 +184,46 @@
         >
           <ol>
             <li>修改 MFA 和 查询 MFA使用的 Token 有所区别</li>
-            <span>修改 MFA 必须使用终端用户的 Token, 查询 MFA 可以使用终端用户的 Token 和管理员的 Token。</span>
-            <span>终端用户的 Token 只能查询自己的 MFA, 而管理员的 Token 可以用户池所有用户的 MFA。</span>
+            <span
+              >修改 MFA 必须使用终端用户的 Token, 查询 MFA 可以使用终端用户的
+              Token 和管理员的 Token。</span
+            >
+            <span
+              >终端用户的 Token 只能查询自己的 MFA, 而管理员的 Token
+              可以用户池所有用户的 MFA。</span
+            >
             <li>如何获取管理员 Token?</li>
             <span>
               调用
-              <b>用户池鉴权</b> ->
-              <b>初始化</b> 接口会返回管理员 Token。(即
+              <b>用户池鉴权</b> -> <b>初始化</b> 接口会返回管理员 Token。(即
               <code>accessToken</code> )
             </span>
             <li>如何获取用户 Token?</li>
             <span>
               调用
-              <b>用户鉴权</b> ->
-              <b>登录</b> 接口会返回用户 Token。
+              <b>用户鉴权</b> -> <b>登录</b> 接口会返回用户 Token。
             </span>
             <li>如何发送 Token？</li>
             <span>
               添加到 HTTP 请求的
               <a
                 href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Authorization"
-              >Authorization Header</a> 中，
-              并在前面加上 "
+                >Authorization Header</a
+              >
+              中， 并在前面加上 "
               <code>Bearer</code>"（别忘了空格），比如你获取到的
               <code>accessToken</code> 为
-              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>,
-              那么最终的 Authorization 请求头就是
+              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>, 那么最终的
+              Authorization 请求头就是
               <code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>
             </span>
             <li>如何在界面中模拟发送 Token</li>
-            <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
+            <span
+              >在 Headers 编辑器中输入正确的 Authorization
+              请求头，同时勾选上右上角的复选框。</span
+            >
             <img
-              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
+              src="https://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
               style="width: 100%;"
               alt
             />
@@ -197,33 +242,35 @@
             <li>如何获取管理员 Token?</li>
             <span>
               调用
-              <b>用户池鉴权</b> ->
-              <b>初始化</b> 接口会返回管理员 Token。(即
+              <b>用户池鉴权</b> -> <b>初始化</b> 接口会返回管理员 Token。(即
               <code>accessToken</code> )
             </span>
             <li>如何获取用户 Token?</li>
             <span>
               调用
-              <b>用户鉴权</b> ->
-              <b>登录</b> 接口会返回用户 Token。
+              <b>用户鉴权</b> -> <b>登录</b> 接口会返回用户 Token。
             </span>
             <li>如何发送 Token？</li>
             <span>
               添加到 HTTP 请求的
               <a
                 href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Authorization"
-              >Authorization Header</a> 中，
-              并在前面加上 "
+                >Authorization Header</a
+              >
+              中， 并在前面加上 "
               <code>Bearer</code>"（别忘了空格），比如你获取到的
               <code>accessToken</code> 为
-              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>,
-              那么最终的 Authorization 请求头就是
+              <code>eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>, 那么最终的
+              Authorization 请求头就是
               <code>Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I...</code>
             </span>
             <li>如何在界面中模拟发送 Token</li>
-            <span>在 Headers 编辑器中输入正确的 Authorization 请求头，同时勾选上右上角的复选框。</span>
+            <span
+              >在 Headers 编辑器中输入正确的 Authorization
+              请求头，同时勾选上右上角的复选框。</span
+            >
             <img
-              src="http://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
+              src="https://lcjim-img.oss-cn-beijing.aliyuncs.com/2019-10-24-102730.png"
               style="width: 100%;"
               alt
             />
@@ -236,32 +283,54 @@
         <p
           v-if="(apiInfo.fields || apiInfo.inputFields) && fields.length > 0"
           :style="pStyle"
-        >子项（fields）</p>
+        >
+          子项（fields）
+        </p>
         <div
           v-if="(apiInfo.fields || apiInfo.inputFields) && fields.length > 0"
           class="demo-drawer-profile"
         >
           <Row>
             <Col span="24" class="setfontsize apiname">
-              <span style="color: #515a6e;margin-right: 6px;">type</span>
+              <span style="color: #515a6e; margin-right: 6px;">type</span>
               {{ apiInfo.name }} {
             </Col>
-            <Col v-for="(item, index) in fields" :key="index" span="12" class="setfontsize">
+            <Col
+              v-for="(item, index) in fields"
+              :key="index"
+              span="12"
+              class="setfontsize"
+            >
               <span
-                @click="findInDic(apiInfo.name == 'Schemas' ? item.name : item.type.ofType && item.type.ofType.name ? item.type.ofType.name : (item.type.name
-                    ? item.type.name
-                    : item.type.kind).replace('NON_NULL', '必填').replace('NON_NULL', '必填'))"
+                @click="
+                  findInDic(
+                    apiInfo.name == 'Schemas'
+                      ? item.name
+                      : item.type.ofType && item.type.ofType.name
+                      ? item.type.ofType.name
+                      : (item.type.name ? item.type.name : item.type.kind)
+                          .replace('NON_NULL', '必填')
+                          .replace('NON_NULL', '必填')
+                  )
+                "
                 class="text"
               >
                 {{ item.name }}
-                <span style="color: #000;margin: 0 3px;">:</span>
+                <span style="color: #000; margin: 0 3px;">:</span>
               </span>
 
               <Tooltip
                 placement="right"
-                :content="getTootips((apiInfo.name == 'Schemas' ? item.name : (item.type.name
-                ? item.type.name
-                : item.type.kind)).replace('NON_NULL', '必填'))"
+                :content="
+                  getTootips(
+                    (apiInfo.name == 'Schemas'
+                      ? item.name
+                      : item.type.name
+                      ? item.type.name
+                      : item.type.kind
+                    ).replace('NON_NULL', '必填')
+                  )
+                "
               >
                 <!-- <Tag
                   :color="getTagColor(apiInfo.name == 'Schemas' ? item.name : (item.type.name
@@ -269,18 +338,41 @@
                 : item.type.kind))"
                 >-->
                 <span
-                  :style="getTagStyle(apiInfo.name == 'Schemas' ? item.name : (item.type.name
-                ? item.type.name
-                : item.type.kind))"
-                  @click="findInDic(apiInfo.name == 'Schemas' ? item.name : item.type.ofType && item.type.ofType.name ? item.type.ofType.name : (item.type.name
-                    ? item.type.name
-                    : item.type.kind).replace('NON_NULL', '必填').replace('NON_NULL', '必填'))"
+                  :style="
+                    getTagStyle(
+                      apiInfo.name == 'Schemas'
+                        ? item.name
+                        : item.type.name
+                        ? item.type.name
+                        : item.type.kind
+                    )
+                  "
+                  @click="
+                    findInDic(
+                      apiInfo.name == 'Schemas'
+                        ? item.name
+                        : item.type.ofType && item.type.ofType.name
+                        ? item.type.ofType.name
+                        : (item.type.name ? item.type.name : item.type.kind)
+                            .replace('NON_NULL', '必填')
+                            .replace('NON_NULL', '必填')
+                    )
+                  "
                 >
                   {{ (apiInfo.name == 'Schemas' ? item.name : item.type.ofType && item.type.ofType.name ? item.type.ofType.name : (item.type.name
                   ? item.type.name
-                  : item.type.kind).replace('NON_NULL', '必填')) }}{{(apiInfo.name == 'Schemas' ? item.name : item.type.ofType && item.type.ofType.name ? item.type.ofType.name : (item.type.name
-                  ? item.type.name
-                  : item.type.kind)) == 'NON_NULL' ? '!' : ''}}
+                  : item.type.kind).replace('NON_NULL', '必填'))
+                  }}{{
+                    (apiInfo.name == "Schemas"
+                      ? item.name
+                      : item.type.ofType && item.type.ofType.name
+                      ? item.type.ofType.name
+                      : item.type.name
+                      ? item.type.name
+                      : item.type.kind) == "NON_NULL"
+                      ? "!"
+                      : ""
+                  }}
                 </span>
                 <!-- </Tag> -->
               </Tooltip>
@@ -290,28 +382,48 @@
         </div>
         <div
           v-if="(apiInfo.fields || apiInfo.inputFilds) && fields.length > 0"
-          style="margin-top: 33px;width: 100%; height: 1px;"
+          style="margin-top: 33px; width: 100%; height: 1px;"
         ></div>
-        <p v-if="apiInfo.args && args.length > 0" :style="pStyle">参数（args）</p>
+        <p v-if="apiInfo.args && args.length > 0" :style="pStyle">
+          参数（args）
+        </p>
         <div v-if="apiInfo.args && args.length > 0" class="demo-drawer-profile">
           <Row>
-            <Col span="24" class="setfontsize apiname">{{ apiInfo.name }} (</Col>
+            <Col span="24" class="setfontsize apiname"
+              >{{ apiInfo.name }} (</Col
+            >
 
-            <Col v-for="(item, index) in args" :key="index" span="12" class="setfontsize">
+            <Col
+              v-for="(item, index) in args"
+              :key="index"
+              span="12"
+              class="setfontsize"
+            >
               <span
-                @click="findInDic(item.type.ofType && item.type.ofType.name ? item.type.ofType.name : (item.type.name
-                  ? item.type.name
-                  : item.type.kind))"
+                @click="
+                  findInDic(
+                    item.type.ofType && item.type.ofType.name
+                      ? item.type.ofType.name
+                      : item.type.name
+                      ? item.type.name
+                      : item.type.kind
+                  )
+                "
                 class="text"
               >
                 {{ item.name }}
-                <span style="color: #000;margin: 0 3px;">:</span>
+                <span style="color: #000; margin: 0 3px;">:</span>
               </span>
               <Tooltip
                 placement="right"
-                :content="getTootips((item.type.name
-                ? item.type.name
-                : item.type.kind).replace('NON_NULL', '必填'))"
+                :content="
+                  getTootips(
+                    (item.type.name ? item.type.name : item.type.kind).replace(
+                      'NON_NULL',
+                      '必填'
+                    )
+                  )
+                "
               >
                 <!-- <Tag
                   :color="getTagColor(item.type.name
@@ -322,18 +434,38 @@
                 : item.type.kind))"
                 >-->
                 <span
-                  :style="getTagStyle(item.type.ofType && item.type.ofType.name ? item.type.ofType.name : (item.type.name
-                  ? item.type.name
-                  : item.type.kind))"
-                  @click="findInDic(item.type.ofType && item.type.ofType.name ? item.type.ofType.name : (item.type.name
-                  ? item.type.name
-                  : item.type.kind))"
+                  :style="
+                    getTagStyle(
+                      item.type.ofType && item.type.ofType.name
+                        ? item.type.ofType.name
+                        : item.type.name
+                        ? item.type.name
+                        : item.type.kind
+                    )
+                  "
+                  @click="
+                    findInDic(
+                      item.type.ofType && item.type.ofType.name
+                        ? item.type.ofType.name
+                        : item.type.name
+                        ? item.type.name
+                        : item.type.kind
+                    )
+                  "
                 >
-                  {{ item.type.ofType && item.type.ofType.name ? item.type.ofType.name : (item.type.name
-                  ? item.type.name
-                  : item.type.kind).replace('NON_NULL', '必填') }}{{(item.type.name
-                  ? item.type.name
-                  : item.type.kind) == 'NON_NULL' ? '!' : ''}}
+                  {{
+                    item.type.ofType && item.type.ofType.name
+                      ? item.type.ofType.name
+                      : (item.type.name
+                          ? item.type.name
+                          : item.type.kind
+                        ).replace("NON_NULL", "必填")
+                  }}{{
+                    (item.type.name ? item.type.name : item.type.kind) ==
+                    "NON_NULL"
+                      ? "!"
+                      : ""
+                  }}
                 </span>
                 <!-- </Tag> -->
               </Tooltip>
@@ -341,9 +473,14 @@
 
             <Col span="24" class="setfontsize apiname">
               )
-              <span v-if="apiInfo.type.name" @click="findInDic(apiInfo.type.name)">
+              <span
+                v-if="apiInfo.type.name"
+                @click="findInDic(apiInfo.type.name)"
+              >
                 :
-                <span :style="getTagStyle(apiInfo.type.name)">{{ apiInfo.type.name }}</span>
+                <span :style="getTagStyle(apiInfo.type.name)">{{
+                  apiInfo.type.name
+                }}</span>
               </span>
             </Col>
           </Row>
@@ -389,7 +526,7 @@ export default {
   components: {
     VueMarkdown,
     Alert,
-    Modal
+    Modal,
   },
 
   data() {
@@ -402,14 +539,14 @@ export default {
         color: "rgba(0,0,0,0.85)",
         lineHeight: "24px",
         display: "block",
-        marginBottom: "16px"
+        marginBottom: "16px",
       },
       codevalue: "hello",
       showAdminTokenUsage: false,
       showUserTokenUsage: false,
       showMFATokenUsage: false,
       showBothTokenUsage: false,
-      apiScenes: undefined
+      apiScenes: undefined,
     };
   },
   computed: {
@@ -421,7 +558,7 @@ export default {
       "historyList",
       "apiDocs",
       "queries",
-      "schemas"
+      "schemas",
     ]),
 
     doc() {
@@ -442,7 +579,7 @@ export default {
             schemaDoc = `
 参数列表：
 ${inputFields
-  .map(item => {
+  .map((item) => {
     const name = item.name;
     const isRequred = item.type && item.type.kind === "NON_NULL";
     return `- ${name}: ${isRequred ? "必填" : "选填"}`;
@@ -453,7 +590,7 @@ ${inputFields
         }
       }
       return brief || schemaDoc || emptyDoc;
-    }
+    },
   },
   watch: {
     drawerShow() {
@@ -462,7 +599,7 @@ ${inputFields
     },
     apiInfo() {
       this.dealWithApiInfo();
-    }
+    },
   },
   methods: {
     ...mapActions("apollo", [
@@ -472,7 +609,7 @@ ${inputFields
       "setNowHistory",
       "addToHistoryList",
       "lastHistory",
-      "nextHistory"
+      "nextHistory",
     ]),
 
     showUsageModal(type) {
@@ -692,8 +829,8 @@ ${inputFields
       } else {
         return null;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style>
